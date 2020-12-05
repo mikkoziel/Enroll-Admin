@@ -12,13 +12,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { NewScheduleComponent } from './new-schedule/new-schedule.component';
+import { ScheduleOverviewComponent } from './schedule-overview/schedule-overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     AdminPanelComponent,
-    SideNavComponent
+    SideNavComponent,
+    NewScheduleComponent,
+    ScheduleOverviewComponent
   ],
   imports: [
     BrowserModule,
