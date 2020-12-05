@@ -10,3 +10,26 @@ button{
     margin-bottom: 0!important;
     background-color: #f5f5f5!important;
 }
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+.example-container {
+    padding-top: 16px;
+    background: #eee;
+    height: 95vh;
+}
+
+.sidenav-example {
+    padding-top: 16px;
+    padding-left:32px;
+    padding-right: 32px;
+}
+
+.example-header {
+    padding: 0 0;
+}
+  
