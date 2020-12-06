@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Schedule } from '../interfaces/schedule';
+import { ScheduleService } from '../services/schedule.service';
 
 @Component({
   selector: 'app-schedule-details',
@@ -13,7 +14,8 @@ export class ScheduleDetailsComponent implements OnInit {
   data: Schedule;
   sub: Subscription;
 
-  constructor(private _Activatedroute:ActivatedRoute,) { 
+  constructor(private _Activatedroute:ActivatedRoute,
+    private scheduleService: ScheduleService) { 
   
   }
 
@@ -21,6 +23,10 @@ export class ScheduleDetailsComponent implements OnInit {
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
     });
+  }
+
+  deleteSchedule(){
+    this.scheduleService.deleteSchedule(this.data);
   }
 
 }
