@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Schedule } from '../interfaces/schedule';
 
 @Injectable({
@@ -27,5 +27,12 @@ export class ScheduleService {
         arr.push(schedule);
       })
     )
+  }
+
+  deleteSchedule(schedule: Schedule) {
+    // this.schedulesObservable.pipe(
+    //   filter((arr:Schedule[])=>{ arr.filter((x:Schedule)=> x.id !== schedule.id)
+    //   })
+    // )
   }
 }
