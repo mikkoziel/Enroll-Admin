@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-new-schedule',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-schedule.component.css']
 })
 export class NewScheduleComponent implements OnInit {
+  modelForm: FormGroup;
 
-  constructor() { }
+  constructor(
+    private formBuilder : FormBuilder,) { 
+
+  }
 
   ngOnInit(): void {
+    this.modelForm = this.formBuilder.group({
+      name: ['', Validators.required],
+    })
+  }
+
+  onSubmit(modelForm: FormGroup){
+    
   }
 
 }

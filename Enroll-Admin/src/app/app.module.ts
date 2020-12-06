@@ -1,9 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatExpansionModule } from '@angular/material/expansion';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +16,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { NewScheduleComponent } from './new-schedule/new-schedule.component';
 import { ScheduleOverviewComponent } from './schedule-overview/schedule-overview.component';
+import { ScheduleDetailsComponent } from './schedule-details/schedule-details.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { ScheduleOverviewComponent } from './schedule-overview/schedule-overview
     AdminPanelComponent,
     SideNavComponent,
     NewScheduleComponent,
-    ScheduleOverviewComponent
+    ScheduleOverviewComponent,
+    ScheduleDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +36,9 @@ import { ScheduleOverviewComponent } from './schedule-overview/schedule-overview
     MatSidenavModule,
     MatFormFieldModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatExpansionModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

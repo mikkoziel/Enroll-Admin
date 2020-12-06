@@ -1,1 +1,10 @@
-<p>new-schedule works!</p>
+<div class="flex-column">
+    <h3>Add new schedule!</h3>
+    <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="flex-column">
+        <div class="flex-row">
+            <div class="label"><label>name:</label></div>
+            <input name="name" formControlName="name"  type="text">
+        </div>
+    </form>
+
+</div>
