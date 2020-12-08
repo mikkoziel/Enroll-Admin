@@ -1,0 +1,7 @@
+{
+    "/enroll/admin": {
+      "target":"http://localhost:3999/enroll/admin",
+      "secure": false,
+      "logLevel":"debug"
+    }
+}

@@ -2,6 +2,7 @@
     <div *ngFor="let schedule of(schedulesEmitter | async)"
         class="schedule-box">
         <p>{{ schedule.id }}</p>
+        <p>{{ schedule.name }}</p>
         <button [routerLink]="['/schedule-details', schedule.id]">More info</button>
         <mat-divider></mat-divider>
     </div>

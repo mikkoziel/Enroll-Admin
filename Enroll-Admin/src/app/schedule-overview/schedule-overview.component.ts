@@ -3,6 +3,7 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { Schedule } from '../interfaces/schedule'
 import { ScheduleService } from '../services/schedule.service';
+import { ServerService } from '../services/server.service';
 
 @Component({
   selector: 'app-schedule-overview',
@@ -14,8 +15,12 @@ export class ScheduleOverviewComponent implements OnInit {
   
   schedulesEmitter = new BehaviorSubject<Schedule[]>(this.schedules);
 
-  constructor(private scheduleService: ScheduleService) { 
-    this.getSchedules();
+  constructor(private scheduleService: ScheduleService,
+    private serverService: ServerService) { 
+    // this.getSchedules();
+    this.serverService.getSchedules().subscribe((x: Schedule[])=> {
+      this.schedules = x;    
+      this.schedulesEmitter.next(this.schedules);});
    }
 
   ngOnInit(): void {
