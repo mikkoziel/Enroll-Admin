@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatTreeModule} from '@angular/material/tree';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -52,7 +53,8 @@ import { GroupDetailsComponent } from './group-details/group-details.component';
     ReactiveFormsModule,
     MatExpansionModule,
     MatDividerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTreeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

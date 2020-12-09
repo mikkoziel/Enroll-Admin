@@ -36,6 +36,27 @@ export class ServerService {
     )
   }
 
+  getSchedule(id: number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.get(this.httpAddress + "/schedules/" + id.toString(),
+    header).pipe(
+      tap(x=> console.log(x)),
+      map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('getSchedules'))
+    )
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // log to console instead
+      console.log(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
+  }
+
   parseSchedules(schedules: any){
     let ret: Schedule[] = [];
     console.log(schedules);
@@ -50,6 +71,9 @@ export class ServerService {
     return <Schedule>{
       id: schedule.scheduleID,
       name: schedule.name,
+      status: schedule.status,
+      semester: schedule.semester,
+      description: schedule.description,
       classes: Array.from(schedule.classes, (cl: any) => 
         <Class>{
           id: cl.classId,
@@ -60,33 +84,10 @@ export class ServerService {
               day: group.day,
               start: group.start,
               end: group.end,
-              professor: group.professor
+              professor: group.professor_id
             }
-          )
-            
+          )   
       })
-    };
-  }
-
-  getSchedule(id: number){
-    const header = { headers: new HttpHeaders({
-      'responseType': 'text',
-      'id': '1'
-    })};
-    return this.http.get(this.httpAddress + "/schedules/" + id.toString(),
-    header).pipe(
-      tap(x=> console.log(x)),
-      map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
-      catchError(this.handleError('getSchedules'))
-    )
-  }
-
-  
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
     };
   }
 }
