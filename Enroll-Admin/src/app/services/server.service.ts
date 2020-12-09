@@ -22,17 +22,25 @@ export class ServerService {
   }
 
   getSchedules() {
+    const header = { headers: new HttpHeaders({
+      // 'method': 'GET',
+      'responseType': 'text',
+      // 'Access-Control-Allow-Origin': '*',
+      'id': '1'
+    })};
     return this.http.get(this.httpAddress + "/schedules",
-      {responseType: 'text'}).pipe(
+      header).pipe(
         // tap(x=> console.log(x)),
-        map(x=> this.parseSchedules(JSON.parse(x))),
+        map((x)=> this.parseSchedules(JSON.stringify(x))),
         catchError(this.handleError('getSchedules'))
     )
   }
 
   parseSchedules(schedules: any){
     let ret: Schedule[] = [];
-    schedules.schedules.forEach((schedule: any)=>{
+    console.log(schedules);
+    let sch = JSON.parse(schedules);
+    sch.schedules.forEach((schedule: any)=>{
       ret.push(this.parseSchedule(schedule));
     });
     return ret;
@@ -61,10 +69,14 @@ export class ServerService {
   }
 
   getSchedule(id: number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
     return this.http.get(this.httpAddress + "/schedules/" + id.toString(),
-    {responseType: 'text'}).pipe(
-      // tap(x=> console.log(x)),
-      map(x=> this.parseSchedule(JSON.parse(x))),
+    header).pipe(
+      tap(x=> console.log(x)),
+      map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('getSchedules'))
     )
   }
