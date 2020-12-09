@@ -1,9 +1,26 @@
 <div class="flex-column">
     <h3>Add new schedule!</h3>
     <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="flex-column">
-        <div class="flex-row">
-            <div class="label"><label>name:</label></div>
+        <div class="flex-row div-margin">
+            <div class="label"><label>Name:</label></div>
             <input name="name" formControlName="name"  type="text">
+        </div>
+        <div class="flex-row div-margin">
+            <div class="label"><label>Semester:</label></div>
+            <input name="semester" formControlName="semester"  type="number">
+        </div>
+        <div class="flex-row div-margin">
+            <div class="label"><label>Description:</label></div>
+            <input name="description" formControlName="description"  type="text">
+        </div>
+        
+        <div class="div-margin">
+            <button type="submit">Send</button>
+        </div>
+        <div *ngIf="errors.length != 0">
+            <p *ngFor='let error_text of errors'>
+                {{error_text}}
+            </p>
         </div>
     </form>
 

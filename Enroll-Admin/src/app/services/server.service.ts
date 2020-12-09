@@ -43,7 +43,7 @@ export class ServerService {
     })};
     return this.http.get(this.httpAddress + "/schedules/" + id.toString(),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('getSchedules'))
     )
@@ -59,7 +59,7 @@ export class ServerService {
 
   parseSchedules(schedules: any){
     let ret: Schedule[] = [];
-    console.log(schedules);
+    // console.log(schedules);
     let sch = JSON.parse(schedules);
     sch.schedules.forEach((schedule: any)=>{
       ret.push(this.parseSchedule(schedule));

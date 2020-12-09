@@ -10,6 +10,7 @@ import { ScheduleService } from '../services/schedule.service';
 })
 export class NewScheduleComponent implements OnInit {
   modelForm: FormGroup;
+  errors = [];
 
   constructor(
     private formBuilder : FormBuilder,
@@ -20,13 +21,19 @@ export class NewScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.modelForm = this.formBuilder.group({
       name: ['', Validators.required],
+      semester: ['', Validators.required],
+      description: ['', Validators.required],
     })
   }
 
   onSubmit(modelForm: FormGroup){
     this.scheduleService.addSchedule(
       <Schedule>{
-        id: 1,
+        name: modelForm.value.name,
+        status: "CREATED",
+        semester: modelForm.value.semester,
+        description: modelForm.value.description,
+        classes: []
       }
     )
   }
