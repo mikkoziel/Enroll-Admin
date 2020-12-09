@@ -1,9 +1,14 @@
 <div class="flex-column">
     <div *ngFor="let class of(data)"
         class="schedule-box">
-        <p>{{ class.id }}</p>
         <p>{{ class.name }}</p>
-        <button [routerLink]="['/class-details', class.id]">More info</button>
+        <p>Classes:</p>
+        <li *ngFor="let group of class.groups">
+            {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} Professor: {{group.professor}} 
+            <button (click)="deleteGroup(group.id)">Delete Group</button>
+        </li>     
+        <button (click)="addGroup()">Add Group</button>
+        <br/>
         <mat-divider></mat-divider>
     </div>
 </div>

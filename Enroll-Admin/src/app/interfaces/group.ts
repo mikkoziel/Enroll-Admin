@@ -1,4 +1,4 @@
-import { Time } from '@angular/common';
+import { Time, WeekDay } from '@angular/common';
 
 export interface Group{
     id: number,
@@ -6,4 +6,5 @@ export interface Group{
     start: Time,
     end: Time,
     professor: String
+
 }

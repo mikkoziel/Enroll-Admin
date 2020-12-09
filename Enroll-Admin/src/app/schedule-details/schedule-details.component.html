@@ -1,8 +1,10 @@
 <div class="flex-column">
-    <p>schedule-details works!</p>
-    <p>{{ data?.id }}</p>
-    <p>{{ data?.name }}</p>
-    <p>{{ data?.semester }}</p>   
+    <!-- <p>schedule-details works!</p> -->
+    <!-- <p>{{ data?.id }}</p> -->
+    <p>Name: {{ data?.name }}</p>
+    <p>Semester: {{ data?.semester }}</p>   
+    <p>Description: {{ data?.description }}</p>  
+    <p>Status: {{ data?.status }}</p> 
     
     <mat-accordion>
         <mat-expansion-panel (opened)="panelOpenState"
@@ -11,6 +13,9 @@
                 <mat-panel-title>
                     Classes
                 </mat-panel-title>
+                <mat-panel-description>
+                    <button (click)="addClass()">Add Class</button>
+                </mat-panel-description>
             </mat-expansion-panel-header>
 
             <mat-divider></mat-divider>

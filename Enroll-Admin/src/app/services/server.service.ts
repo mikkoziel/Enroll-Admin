@@ -22,17 +22,46 @@ export class ServerService {
   }
 
   getSchedules() {
+    const header = { headers: new HttpHeaders({
+      // 'method': 'GET',
+      'responseType': 'text',
+      // 'Access-Control-Allow-Origin': '*',
+      'id': '1'
+    })};
     return this.http.get(this.httpAddress + "/schedules",
-      {responseType: 'text'}).pipe(
+      header).pipe(
         // tap(x=> console.log(x)),
-        map(x=> this.parseSchedules(JSON.parse(x))),
+        map((x)=> this.parseSchedules(JSON.stringify(x))),
         catchError(this.handleError('getSchedules'))
     )
   }
 
+  getSchedule(id: number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.get(this.httpAddress + "/schedules/" + id.toString(),
+    header).pipe(
+      // tap(x=> console.log(x)),
+      map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('getSchedules'))
+    )
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // log to console instead
+      console.log(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
+  }
+
   parseSchedules(schedules: any){
     let ret: Schedule[] = [];
-    schedules.schedules.forEach((schedule: any)=>{
+    // console.log(schedules);
+    let sch = JSON.parse(schedules);
+    sch.schedules.forEach((schedule: any)=>{
       ret.push(this.parseSchedule(schedule));
     });
     return ret;
@@ -42,6 +71,9 @@ export class ServerService {
     return <Schedule>{
       id: schedule.scheduleID,
       name: schedule.name,
+      status: schedule.status,
+      semester: schedule.semester,
+      description: schedule.description,
       classes: Array.from(schedule.classes, (cl: any) => 
         <Class>{
           id: cl.classId,
@@ -52,29 +84,10 @@ export class ServerService {
               day: group.day,
               start: group.start,
               end: group.end,
-              professor: group.professor
+              professor: group.professor_id
             }
-          )
-            
+          )   
       })
-    };
-  }
-
-  getSchedule(id: number){
-    return this.http.get(this.httpAddress + "/schedules/" + id.toString(),
-    {responseType: 'text'}).pipe(
-      // tap(x=> console.log(x)),
-      map(x=> this.parseSchedule(JSON.parse(x))),
-      catchError(this.handleError('getSchedules'))
-    )
-  }
-
-  
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
     };
   }
 }
