@@ -6,7 +6,6 @@ import { Schedule } from '../interfaces/schedule';
 import { Class } from '../interfaces/class';
 import { Group } from '../interfaces/group';
 
-
 const httpOptions = { headers: new HttpHeaders({ 
   'Content-Type' : 'application/json',
   'Access-Control-Allow-Origin':'*', 
@@ -16,7 +15,7 @@ const httpOptions = { headers: new HttpHeaders({
   providedIn: 'root'
 })
 export class ServerService {
-  httpAddress = "http://localhost:3999/enroll/admin";
+  httpAddress = "http://localhost:3999/admin-handler";
 
   constructor(private http:HttpClient,) { 
   }
@@ -29,7 +28,7 @@ export class ServerService {
     return this.http.get(this.httpAddress + "/schedules",
       header).pipe(
         // tap(x=> console.log(x)),
-        map((x)=> this.parseSchedules(JSON.stringify(x))),
+        map((x)=> this.parseStringToSchedules(JSON.stringify(x))),
         catchError(this.handleError('getSchedules'))
     )
   }
@@ -42,18 +41,19 @@ export class ServerService {
     return this.http.get(this.httpAddress + "/schedules/" + id.toString(),
     header).pipe(
       // tap(x=> console.log(x)),
-      map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('getSchedules'))
     )
   }
 
   addSchedule(id:number, schedule: Schedule){
+    console.log(JSON.stringify(schedule))
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
       'id': '1'
     })};
-    return this.http.post(this.httpAddress + "/schedules/",
-    schedule,
+    return this.http.post(this.httpAddress + "/schedules",
+    JSON.stringify(schedule),
     header).pipe(
       tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
@@ -69,17 +69,18 @@ export class ServerService {
     };
   }
 
-  parseSchedules(schedules: any){
+      
+  parseStringToSchedules(schedules: any){
     let ret: Schedule[] = [];
     // console.log(schedules);
     let sch = JSON.parse(schedules);
     sch.schedules.forEach((schedule: any)=>{
-      ret.push(this.parseSchedule(schedule));
+      ret.push(this.parseStringToSchedule(schedule));
     });
     return ret;
   }
 
-  parseSchedule(schedule: any){
+  parseStringToSchedule(schedule: any){
     return <Schedule>{
       id: schedule.scheduleID,
       name: schedule.name,
@@ -102,4 +103,6 @@ export class ServerService {
       })
     };
   }
+
+
 }

@@ -29,15 +29,16 @@ export class NewScheduleComponent implements OnInit {
   }
 
   onSubmit(modelForm: FormGroup){
-    this.serverService.addSchedule(1, 
-      <Schedule>{
-        name: modelForm.value.name,
-        status: "CREATED",
-        semester: modelForm.value.semester,
-        description: modelForm.value.description,
-        classes: []
-      }
-    )
+    let id_ob = this.serverService.addSchedule(1, 
+            <Schedule>{
+              name: modelForm.value.name,
+              status: "CREATED",
+              semester: modelForm.value.semester,
+              description: modelForm.value.description,
+              classes: []
+            }
+          )
+      id_ob.subscribe(x=>console.log(x))
   }
 
 }
