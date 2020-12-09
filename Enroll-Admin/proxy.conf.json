@@ -1,6 +1,6 @@
 {
-    "/enroll/admin": {
-      "target":"http://localhost:3999/enroll/admin",
+    "/admin-handler": {
+      "target":"http://localhost:3999/admin-handler",
       "secure": false,
       "logLevel":"debug"
     }
