@@ -23,9 +23,7 @@ export class ServerService {
 
   getSchedules() {
     const header = { headers: new HttpHeaders({
-      // 'method': 'GET',
       'responseType': 'text',
-      // 'Access-Control-Allow-Origin': '*',
       'id': '1'
     })};
     return this.http.get(this.httpAddress + "/schedules",
@@ -45,6 +43,20 @@ export class ServerService {
     header).pipe(
       // tap(x=> console.log(x)),
       map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('getSchedules'))
+    )
+  }
+
+  addSchedule(id:number, schedule: Schedule){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.post(this.httpAddress + "/schedules/",
+    schedule,
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('getSchedules'))
     )
   }

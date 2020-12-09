@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
+import { UserService } from '../services/user.service';
 // import firebase from 'firebase/app';
 
 @Component({
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
     // private authService: AuthService,
     // private wycieczkiService: WycieczkiServiceService,
     // private dbService: DbService
+    private userService: UserService
     ) { }
 
   ngOnInit(): void {
@@ -42,10 +44,12 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+    this.userService.login(this.mail, this.password);
     // this.authService.login(this.mail, this.password)
   }
 
   logout(){
+    this.userService.logout();
     // this.authService.logout()
   }
 

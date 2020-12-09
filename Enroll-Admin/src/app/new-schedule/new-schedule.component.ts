@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl, FormControl } from '@angular/forms';
 import { Schedule } from '../interfaces/schedule';
 import { ScheduleService } from '../services/schedule.service';
+import { ServerService } from '../services/server.service';
 
 @Component({
   selector: 'app-new-schedule',
@@ -14,7 +15,8 @@ export class NewScheduleComponent implements OnInit {
 
   constructor(
     private formBuilder : FormBuilder,
-    private scheduleService: ScheduleService) { 
+    private scheduleService: ScheduleService,
+    private serverService: ServerService) { 
 
   }
 
@@ -27,7 +29,7 @@ export class NewScheduleComponent implements OnInit {
   }
 
   onSubmit(modelForm: FormGroup){
-    this.scheduleService.addSchedule(
+    this.serverService.addSchedule(1, 
       <Schedule>{
         name: modelForm.value.name,
         status: "CREATED",
