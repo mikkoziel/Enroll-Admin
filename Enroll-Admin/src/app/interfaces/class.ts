@@ -1,7 +1,8 @@
 import { Group } from './group';
 
 export interface Class{
-    id: number,
+    id?: number,
     name: String,
-    groups: Group[]
+    groups: Group[],
+    schedule_id?: number
 }

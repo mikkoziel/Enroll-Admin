@@ -1,10 +1,10 @@
 import { Class } from './class';
 
 export interface Schedule{
-    id: number,
+    id?: number,
     name: string,
-    status?: string,
-    semester?: number,
-    description?: string,
+    status: string,
+    semester: number,
+    description: string,
     classes: Class[]
 }

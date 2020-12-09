@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ClassDetailsComponent } from '../class-details/class-details.component';
+import { Class } from '../interfaces/class';
 import { Schedule } from '../interfaces/schedule';
 import { ScheduleService } from '../services/schedule.service';
 import { ServerService } from '../services/server.service';
@@ -14,7 +16,8 @@ export class ScheduleDetailsComponent implements OnInit {
   panelOpenState: boolean = false;
   id: number;
   data: Schedule;
-  sub: Subscription;
+  sub: Subscription;  
+  classes: Array<number> = [];
 
   constructor(private _Activatedroute:ActivatedRoute,
     private scheduleService: ScheduleService, 
@@ -36,7 +39,14 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   addClass(){
-    
+    this.classes.push(this.classes.length);
+  }
+
+  hideNewClass(key: number){
+    const index = this.classes.indexOf(key, 0);
+    if (index > -1) {
+      this.classes.splice(index, 1);
+    }
   }
 
 }

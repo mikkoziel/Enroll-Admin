@@ -20,6 +20,7 @@ export class ServerService {
   constructor(private http:HttpClient,) { 
   }
 
+  // --GET------------------------------------------------------
   getSchedules() {
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
@@ -42,12 +43,13 @@ export class ServerService {
     header).pipe(
       // tap(x=> console.log(x)),
       map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
-      catchError(this.handleError('getSchedules'))
+      catchError(this.handleError('getSchedule'))
     )
   }
 
+  // --ADD------------------------------------------------------
   addSchedule(id:number, schedule: Schedule){
-    console.log(JSON.stringify(schedule))
+    // console.log(JSON.stringify(schedule))
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
       'id': '1'
@@ -57,10 +59,40 @@ export class ServerService {
     header).pipe(
       tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
-      catchError(this.handleError('getSchedules'))
+      catchError(this.handleError('addSchedule'))
     )
   }
 
+  addClass(id:number, class_: Class){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.post(this.httpAddress + "/schedules/" + class_.schedule_id,
+    JSON.stringify(class_),
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addClass'))
+    )
+  }
+
+  addGroup(id:number, group: Group){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.post(this.httpAddress + "/classes/" + group.class_id,
+    JSON.stringify(group),
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addGroup'))
+    )
+
+  }
+
+  // --ERROR-----------------------------------------------------
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error); // log to console instead
@@ -69,7 +101,7 @@ export class ServerService {
     };
   }
 
-      
+  // --PARSER----------------------------------------------------
   parseStringToSchedules(schedules: any){
     let ret: Schedule[] = [];
     // console.log(schedules);
@@ -97,7 +129,7 @@ export class ServerService {
               day: group.day,
               start: group.start,
               end: group.end,
-              professor: group.professor_id
+              professor_id: group.professor_id
             }
           )   
       })

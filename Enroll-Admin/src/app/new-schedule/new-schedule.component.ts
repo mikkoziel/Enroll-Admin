@@ -29,16 +29,37 @@ export class NewScheduleComponent implements OnInit {
   }
 
   onSubmit(modelForm: FormGroup){
-    let id_ob = this.serverService.addSchedule(1, 
-            <Schedule>{
-              name: modelForm.value.name,
-              status: "CREATED",
-              semester: modelForm.value.semester,
-              description: modelForm.value.description,
-              classes: []
-            }
-          )
-      id_ob.subscribe(x=>console.log(x))
+    this.errors = [];
+
+    if(modelForm.valid && modelForm.touched){
+      let id_ob = this.serverService.addSchedule(1, 
+              <Schedule>{
+                name: modelForm.value.name,
+                status: "CREATED",
+                semester: modelForm.value.semester,
+                description: modelForm.value.description,
+                classes: []
+              }
+            )
+        id_ob.subscribe(x=>console.log(x))
+    }else{
+      this.getFormValidationErrors();
+      if(this.errors.length == 0){
+        this.errors.push("Fill all fields");
+      }
+    }
   }
 
+  getFormValidationErrors() {
+    Object.keys(this.modelForm.controls).forEach(key => {
+  
+    const controlErrors: ValidationErrors = this.modelForm.get(key).errors;
+    if (controlErrors != null) {
+          Object.keys(controlErrors).forEach(keyError => {
+            this.errors.push("Wrong value in " + key + " field")
+          });
+        }
+      });
+  }
+  
 }

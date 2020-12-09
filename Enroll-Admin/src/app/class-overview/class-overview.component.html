@@ -4,10 +4,13 @@
         <p>{{ class.name }}</p>
         <p>Classes:</p>
         <li *ngFor="let group of class.groups">
-            {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} Professor: {{group.professor}} 
+            {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} Professor: {{group.professor_id}} 
             <button (click)="deleteGroup(group.id)">Delete Group</button>
         </li>     
         <button (click)="addGroup()">Add Group</button>
+        <app-new-group *ngIf="newGroup"
+            (hideGroupEvent)="addGroup()">
+        </app-new-group>
         <br/>
         <mat-divider></mat-divider>
     </div>

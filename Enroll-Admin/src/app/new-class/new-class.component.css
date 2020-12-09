@@ -1,0 +1,34 @@
+.flex-column { 
+    margin: 1%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* border:1px red solid; */
+    justify-content: space-between;
+    align-content: center;
+}
+
+.div-margin {
+    margin: 0 35%;
+    width: 30%;
+}
+
+.label {
+    max-height: 100px;
+}
+
+input {
+    width: 70%;
+}
+
+button {
+    max-height: 100px;
+}
