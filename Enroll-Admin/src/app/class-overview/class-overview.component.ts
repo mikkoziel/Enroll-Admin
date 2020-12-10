@@ -12,12 +12,14 @@ import { WeekDay } from '@angular/common';
 })
 export class ClassOverviewComponent implements OnInit {
   @Input() data: Class[];
-  newGroup: boolean;
+  newGroup: boolean[];
 
   constructor() { }
 
   ngOnInit(): void {
-    this.newGroup = false;
+    for (var i = 0; i < this.data?.length; i++) {
+      this.newGroup.push(false);
+    }
   }
 
   getWeekDay(day: number){
@@ -28,11 +30,15 @@ export class ClassOverviewComponent implements OnInit {
 
   }
 
-  addGroup(){
-    this.newGroup = true;    
+  addGroup(i){
+    this.newGroup[i] = true;    
   }
 
-  hideNewGroup(){
-    this.newGroup = false;
+  ifNewGroup(i){
+    return this.newGroup[i];
+  }
+
+  hideNewGroup(i){
+    this.newGroup[i] = false;
   }
 }

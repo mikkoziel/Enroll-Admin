@@ -30,6 +30,14 @@
         
         <div class="flex-row div-margin">
             <div class="label"><label>Professor:</label></div>
+            <mat-form-field appearance="fill">
+                <mat-label>Professor</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let professor of (profsEmitter | async)" [value]="professor.id">
+                        {{professor.surname}} {{professor.name}} 
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
 
         <div class="div-margin">

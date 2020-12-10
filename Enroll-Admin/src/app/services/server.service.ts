@@ -55,9 +55,9 @@ export class ServerService {
     })};
     return this.http.get(this.httpAddress + "/professors",
       header).pipe(
-        // tap(x=> console.log(x)),
+        tap(x=> console.log(x)),
         map((x)=> this.parseStringToProfessors(JSON.stringify(x))),
-        catchError(this.handleError('getSchedules'))
+        catchError(this.handleError('getProfessors'))
     )
   }
 
@@ -152,7 +152,7 @@ export class ServerService {
 
   parseStringToProfessors(professors: any){
     let ret: Professor[] = [];
-    // console.log(schedules);
+    console.log(professors);
     let profs = JSON.parse(professors);
     profs.professors.forEach((professor: any)=>{
       ret.push(this.parseStringToProfessor(professor));
@@ -161,6 +161,7 @@ export class ServerService {
   }
 
   parseStringToProfessor(professor: any){
+    console.log(professor)
     return <Professor>{
       id: professor.professor_id,
       name: professor.name,

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { Group } from '../interfaces/group';
+import { Professor } from '../interfaces/professor';
 import { ServerService } from '../services/server.service';
 
 @Component({
@@ -13,12 +15,20 @@ export class NewGroupComponent implements OnInit {
   errors = [];
   @Input() class_id: number;
   @Output() hideGroupEvent = new EventEmitter<boolean>();
+  professors: Professor[] = [];
+
+  profsEmitter = new BehaviorSubject<Professor[]>(this.professors); 
 
   constructor(
     private formBuilder : FormBuilder,
     private serverService: ServerService) { }
 
   ngOnInit(): void {
+    this.serverService.getProfessors().subscribe((x:Professor[])=>{
+      this.professors = x;
+      this.profsEmitter.next(x);
+    })
+
     this.modelForm = this.formBuilder.group({
       day: ['', Validators.required],
       start: ['', Validators.required],
