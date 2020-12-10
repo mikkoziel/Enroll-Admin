@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Schedule } from '../interfaces/schedule';
 import { Class } from '../interfaces/class';
 import { Group } from '../interfaces/group';
+import { Professor } from '../interfaces/professor';
 
 const httpOptions = { headers: new HttpHeaders({ 
   'Content-Type' : 'application/json',
@@ -44,6 +45,19 @@ export class ServerService {
       // tap(x=> console.log(x)),
       map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('getSchedule'))
+    )
+  }
+
+  getProfessors() {
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.get(this.httpAddress + "/professors",
+      header).pipe(
+        // tap(x=> console.log(x)),
+        map((x)=> this.parseStringToProfessors(JSON.stringify(x))),
+        catchError(this.handleError('getSchedules'))
     )
   }
 
@@ -134,6 +148,24 @@ export class ServerService {
           )   
       })
     };
+  }
+
+  parseStringToProfessors(professors: any){
+    let ret: Professor[] = [];
+    // console.log(schedules);
+    let profs = JSON.parse(professors);
+    profs.professors.forEach((professor: any)=>{
+      ret.push(this.parseStringToProfessor(professor));
+    });
+    return ret;
+  }
+
+  parseStringToProfessor(professor: any){
+    return <Professor>{
+      id: professor.professor_id,
+      name: professor.name,
+      surname: professor.surname
+    }
   }
 
 

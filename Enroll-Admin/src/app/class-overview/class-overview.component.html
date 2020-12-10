@@ -9,7 +9,7 @@
         </li>     
         <button (click)="addGroup()">Add Group</button>
         <app-new-group *ngIf="newGroup"
-            (hideGroupEvent)="addGroup()">
+            (hideGroupEvent)="hideNewGroup()">
         </app-new-group>
         <br/>
         <mat-divider></mat-divider>
