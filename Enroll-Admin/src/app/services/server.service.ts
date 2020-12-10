@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Schedule } from '../interfaces/schedule';
 import { Class } from '../interfaces/class';
 import { Group } from '../interfaces/group';
-
+import { Professor } from '../interfaces/professor';
 
 const httpOptions = { headers: new HttpHeaders({ 
   'Content-Type' : 'application/json',
@@ -16,22 +16,21 @@ const httpOptions = { headers: new HttpHeaders({
   providedIn: 'root'
 })
 export class ServerService {
-  httpAddress = "http://localhost:3999/enroll/admin";
+  httpAddress = "http://localhost:3999/admin-handler";
 
   constructor(private http:HttpClient,) { 
   }
 
+  // --GET------------------------------------------------------
   getSchedules() {
     const header = { headers: new HttpHeaders({
-      // 'method': 'GET',
       'responseType': 'text',
-      // 'Access-Control-Allow-Origin': '*',
       'id': '1'
     })};
     return this.http.get(this.httpAddress + "/schedules",
       header).pipe(
         // tap(x=> console.log(x)),
-        map((x)=> this.parseSchedules(JSON.stringify(x))),
+        map((x)=> this.parseStringToSchedules(JSON.stringify(x))),
         catchError(this.handleError('getSchedules'))
     )
   }
@@ -44,11 +43,70 @@ export class ServerService {
     return this.http.get(this.httpAddress + "/schedules/" + id.toString(),
     header).pipe(
       // tap(x=> console.log(x)),
-      map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
-      catchError(this.handleError('getSchedules'))
+      map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('getSchedule'))
     )
   }
 
+  getProfessors() {
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.get(this.httpAddress + "/professors",
+      header).pipe(
+        tap(x=> console.log(x)),
+        map((x)=> this.parseStringToProfessors(JSON.stringify(x))),
+        catchError(this.handleError('getProfessors'))
+    )
+  }
+
+  // --ADD------------------------------------------------------
+  addSchedule(id:number, schedule: Schedule){
+    // console.log(JSON.stringify(schedule))
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.post(this.httpAddress + "/schedules",
+    JSON.stringify(schedule),
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addSchedule'))
+    )
+  }
+
+  addClass(id:number, class_: Class){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.post(this.httpAddress + "/schedules/" + class_.schedule_id,
+    JSON.stringify(class_),
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addClass'))
+    )
+  }
+
+  addGroup(id:number, group: Group){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.post(this.httpAddress + "/classes/" + group.class_id,
+    JSON.stringify(group),
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addGroup'))
+    )
+
+  }
+
+  // --ERROR-----------------------------------------------------
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error); // log to console instead
@@ -57,17 +115,18 @@ export class ServerService {
     };
   }
 
-  parseSchedules(schedules: any){
+  // --PARSER----------------------------------------------------
+  parseStringToSchedules(schedules: any){
     let ret: Schedule[] = [];
     // console.log(schedules);
     let sch = JSON.parse(schedules);
     sch.schedules.forEach((schedule: any)=>{
-      ret.push(this.parseSchedule(schedule));
+      ret.push(this.parseStringToSchedule(schedule));
     });
     return ret;
   }
 
-  parseSchedule(schedule: any){
+  parseStringToSchedule(schedule: any){
     return <Schedule>{
       id: schedule.scheduleID,
       name: schedule.name,
@@ -84,10 +143,31 @@ export class ServerService {
               day: group.day,
               start: group.start,
               end: group.end,
-              professor: group.professor_id
+              professor_id: group.professor_id
             }
           )   
       })
     };
   }
+
+  parseStringToProfessors(professors: any){
+    let ret: Professor[] = [];
+    console.log(professors);
+    let profs = JSON.parse(professors);
+    profs.professors.forEach((professor: any)=>{
+      ret.push(this.parseStringToProfessor(professor));
+    });
+    return ret;
+  }
+
+  parseStringToProfessor(professor: any){
+    console.log(professor)
+    return <Professor>{
+      id: professor.professor_id,
+      name: professor.name,
+      surname: professor.surname
+    }
+  }
+
+
 }

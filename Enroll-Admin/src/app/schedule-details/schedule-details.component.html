@@ -6,6 +6,7 @@
     <p>Description: {{ data?.description }}</p>  
     <p>Status: {{ data?.status }}</p> 
     
+    <button (click)="addClass()">Add Class</button>
     <mat-accordion>
         <mat-expansion-panel (opened)="panelOpenState"
                              (closed)="panelOpenState">
@@ -13,13 +14,18 @@
                 <mat-panel-title>
                     Classes
                 </mat-panel-title>
-                <mat-panel-description>
-                    <button (click)="addClass()">Add Class</button>
-                </mat-panel-description>
+                <!-- <mat-panel-description> -->
+                <!-- </mat-panel-description> -->
             </mat-expansion-panel-header>
 
             <mat-divider></mat-divider>
             <app-class-overview [data]="data?.classes"></app-class-overview>
+            <app-new-class *ngFor="let class of classes; index as i"
+                [component_id]=class 
+                [schedule_id]="data?.id"
+                (hideEvent)="hideNewClass($event)">
+                <mat-divider></mat-divider>
+            </app-new-class>
         </mat-expansion-panel>
     </mat-accordion>
     <!-- <p>{{ data.id }}</p> -->
