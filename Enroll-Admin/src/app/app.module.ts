@@ -23,9 +23,6 @@ import { ScheduleDetailsComponent } from './schedule-details/schedule-details.co
 import { NewClassComponent } from './new-class/new-class.component';
 import { NewGroupComponent } from './new-group/new-group.component';
 import { ClassOverviewComponent } from './class-overview/class-overview.component';
-import { ClassDetailsComponent } from './class-details/class-details.component';
-import { GroupOverviewComponent } from './group-overview/group-overview.component';
-import { GroupDetailsComponent } from './group-details/group-details.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +36,7 @@ import { GroupDetailsComponent } from './group-details/group-details.component';
     NewClassComponent,
     NewGroupComponent,
     ClassOverviewComponent,
-    ClassDetailsComponent,
-    GroupOverviewComponent,
-    GroupDetailsComponent
+    
   ],
   imports: [
     BrowserModule,

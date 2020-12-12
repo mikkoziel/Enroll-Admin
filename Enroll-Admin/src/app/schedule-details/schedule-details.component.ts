@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ClassDetailsComponent } from '../class-details/class-details.component';
 import { Class } from '../interfaces/class';
 import { Schedule } from '../interfaces/schedule';
 import { ScheduleService } from '../services/schedule.service';
@@ -40,6 +39,7 @@ export class ScheduleDetailsComponent implements OnInit {
 
   addClass(){
     this.classes.push(this.classes.length);
+    console.log(this.classes)
   }
 
   hideNewClass(key: number){
