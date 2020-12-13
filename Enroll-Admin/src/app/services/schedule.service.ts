@@ -10,29 +10,29 @@ export class ScheduleService {
   schedulesObservable: Observable<Schedule[]>;
 
   constructor() { 
-    this.schedulesObservable = of([
-      <Schedule>{
-      id:0,
-      }
-    ]);
+    // this.schedulesObservable = of([
+    //   <Schedule>{
+    //   id:0,
+    //   }
+    // ]);
   }
 
-  getSchedules(): Observable<Schedule[]> {
-    return this.schedulesObservable;
-  }
+  // getSchedules(): Observable<Schedule[]> {
+    // return this.schedulesObservable;
+  // }
 
-  addSchedule(schedule: Schedule): void {
-    this.schedulesObservable.pipe(
-      map(arr=>{
-        arr.push(schedule);
-      })
-    )
-  }
+  // addSchedule(schedule: Schedule): void {
+    // this.schedulesObservable.pipe(
+    //   map(arr=>{
+    //     arr.push(schedule);
+    //   })
+    // )
+  // }
 
-  deleteSchedule(schedule: Schedule) {
+  // deleteSchedule(schedule: Schedule) {
     // this.schedulesObservable.pipe(
     //   filter((arr:Schedule[])=>{ arr.filter((x:Schedule)=> x.id !== schedule.id)
     //   })
     // )
-  }
+  // }
 }

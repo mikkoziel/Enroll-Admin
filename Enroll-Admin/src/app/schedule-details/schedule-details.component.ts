@@ -34,7 +34,12 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   deleteSchedule(){
-    this.scheduleService.deleteSchedule(this.data);
+    // this.scheduleService.deleteSchedule(this.data);
+    this.serverService.deleteSchedule(this.data.id)
+  }
+
+  updateSchedule(){
+
   }
 
   addClass(){
