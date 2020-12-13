@@ -6,6 +6,10 @@
     <p>Description: {{ data?.description }}</p>  
     <p>Status: {{ data?.status }}</p> 
     
+    <button (click)="updateSchedule()">Update Schedule</button>
+    <button (click)="deleteSchedule()">Delete Schedule</button>
+    
+    <mat-divider></mat-divider>
     <button (click)="addClass()">Add Class</button>
     <mat-accordion>
         <mat-expansion-panel (opened)="panelOpenState"

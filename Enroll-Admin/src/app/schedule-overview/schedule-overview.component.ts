@@ -26,12 +26,12 @@ export class ScheduleOverviewComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getSchedules(): void {
-    this.scheduleService.getSchedules().subscribe(sch =>{
-      this.schedules = sch;
-      console.log(this.schedules);
-      this.schedulesEmitter.next(this.schedules);
-    })
-  }
+  // getSchedules(): void {
+    // this.scheduleService.getSchedules().subscribe(sch =>{
+    //   this.schedules = sch;
+    //   console.log(this.schedules);
+    //   this.schedulesEmitter.next(this.schedules);
+    // })
+  // }
 
 }

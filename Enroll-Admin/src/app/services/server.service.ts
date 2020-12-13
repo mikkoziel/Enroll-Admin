@@ -6,6 +6,7 @@ import { Schedule } from '../interfaces/schedule';
 import { Class } from '../interfaces/class';
 import { Group } from '../interfaces/group';
 import { Professor } from '../interfaces/professor';
+import { UserSchedule } from '../interfaces/user-schedule';
 
 const httpOptions = { headers: new HttpHeaders({ 
   'Content-Type' : 'application/json',
@@ -61,12 +62,25 @@ export class ServerService {
     )
   }
 
+  getUsersForSchedule(schedule_id: number) {
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.get(this.httpAddress + "/users/" + schedule_id,
+      header).pipe(
+        tap(x=> console.log(x)),
+        // map((x)=> this.parseStringToProfessors(JSON.stringify(x))),
+        catchError(this.handleError('getProfessors'))
+    )
+  }
+
   // --ADD------------------------------------------------------
   addSchedule(id:number, schedule: Schedule){
     // console.log(JSON.stringify(schedule))
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
-      'id': '1'
+      'id': id.toString()
     })};
     return this.http.post(this.httpAddress + "/schedules",
     JSON.stringify(schedule),
@@ -80,7 +94,7 @@ export class ServerService {
   addClass(id:number, class_: Class){
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
-      'id': '1'
+      'id': id.toString()
     })};
     return this.http.post(this.httpAddress + "/schedules/" + class_.schedule_id,
     JSON.stringify(class_),
@@ -94,10 +108,51 @@ export class ServerService {
   addGroup(id:number, group: Group){
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
-      'id': '1'
+      'id': id.toString()
     })};
     return this.http.post(this.httpAddress + "/classes/" + group.class_id,
     JSON.stringify(group),
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addGroup'))
+    )
+
+  }
+
+  addUserToSchedule(us: UserSchedule){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '0'
+    })};
+    return this.http.post(this.httpAddress + "user-sch",
+    JSON.stringify(us),
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addUserToSchedule'))
+    )
+  }
+  
+  addProfessor(prof: Professor){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '0'
+    })};
+    return this.http.post(this.httpAddress + "prof",
+    JSON.stringify(prof),
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addUsProfessor'))
+    )
+  }
+  // --DELETE------------------------------------------------------
+  deleteSchedule(schedule_id:number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+    })};
+    return this.http.post(this.httpAddress + "/schedules/" + schedule_id,
     header).pipe(
       tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),

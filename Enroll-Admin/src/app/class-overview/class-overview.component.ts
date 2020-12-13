@@ -17,28 +17,41 @@ export class ClassOverviewComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    for (var i = 0; i < this.data?.length; i++) {
-      this.newGroup.push(false);
-    }
+    this.newGroup = [];
+    this.initNewGroup()
   }
 
   getWeekDay(day: number){
     return WeekDay[day];
   }
 
-  deleteGroup(id){
+  initNewGroup(){
+    for (var i = 0; i < this.data?.length; i++) {
+      this.newGroup.push(false);
+    }
+  }
+
+  deleteGroup(id: any){
 
   }
 
-  addGroup(i){
-    this.newGroup[i] = true;    
+  addGroup(i: string | number){
+    if(!this.newGroup.length){
+      this.initNewGroup()
+    }
+    // console.log(i)
+    this.newGroup[i] = true;  
   }
 
-  ifNewGroup(i){
+  ifNewGroup(i: string | number){
+    // console.log(this.newGroup)
+    if(!this.newGroup.length){
+      this.initNewGroup()
+    }
     return this.newGroup[i];
   }
 
-  hideNewGroup(i){
+  hideNewGroup(i: string | number){
     this.newGroup[i] = false;
   }
 }
