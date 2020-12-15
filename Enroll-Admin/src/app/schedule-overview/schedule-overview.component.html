@@ -4,7 +4,7 @@
         <p>Schedule id: {{ schedule.id }}</p>
         <p>Schedule name: {{ schedule.name }}</p>
         <p>Schedule status: {{ schedule.status }}</p>
-        <button [routerLink]="['/schedule-details', schedule.id]">More info</button>
+        <button mat-button color="primary" [routerLink]="['/schedule-details', schedule.id]">More info</button>
         <mat-divider></mat-divider>
     </div>
 </div>

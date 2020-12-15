@@ -3,11 +3,14 @@
         class="schedule-box">
         <p>{{ class.name }}</p>
         <p>Groups:</p>
-        <li *ngFor="let group of class.groups">
-            {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} Professor: {{group.professor_id}} 
-            <button (click)="deleteGroup(group.id)">Delete Group</button>
-        </li>     
-        <button (click)="addGroup(i)">Add Group</button>
+        <div *ngIf="profs !== undefined">
+            <li *ngFor="let group of class.groups">
+                {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} 
+                Professor: {{getProfessor(group.professor_id)}}
+                <button mat-button color="primary" (click)="deleteGroup(group.id)">Delete Group</button>
+            </li>    
+        </div> 
+        <button mat-button color="primary" (click)="addGroup(i)">Add Group</button>
         <app-new-group *ngIf="ifNewGroup(i)"
             (hideGroupEvent)="hideNewGroup(i)">
         </app-new-group>

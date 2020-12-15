@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { Class } from '../interfaces/class';
 import { WeekDay } from '@angular/common';
+import { Professor } from '../interfaces/professor';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -12,7 +14,10 @@ import { WeekDay } from '@angular/common';
 })
 export class ClassOverviewComponent implements OnInit {
   @Input() data: Class[];
+  @Input() profs: Professor[];
   newGroup: boolean[];
+
+  profs_subject: BehaviorSubject<Professor>[];
 
   constructor() { }
 
@@ -29,6 +34,14 @@ export class ClassOverviewComponent implements OnInit {
     for (var i = 0; i < this.data?.length; i++) {
       this.newGroup.push(false);
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // if(changes["profs"].currentValue != undefined){
+    //   this.profs.forEach((p:Professor)=> {
+    //     this.profs_subject.push(new BehaviorSubject<Professor>(p))
+    //   })
+    // }
   }
 
   deleteGroup(id: any){
@@ -53,5 +66,10 @@ export class ClassOverviewComponent implements OnInit {
 
   hideNewGroup(i: string | number){
     this.newGroup[i] = false;
+  }
+
+  getProfessor(index: number){
+    let prof = this.profs.filter(i=> i.id == index)[0];
+    return prof?.surname + " " + prof?.name;
   }
 }

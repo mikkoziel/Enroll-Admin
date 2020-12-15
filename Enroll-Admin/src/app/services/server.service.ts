@@ -7,6 +7,7 @@ import { Class } from '../interfaces/class';
 import { Group } from '../interfaces/group';
 import { Professor } from '../interfaces/professor';
 import { UserSchedule } from '../interfaces/user-schedule';
+import { User } from '../interfaces/user';
 
 const httpOptions = { headers: new HttpHeaders({ 
   'Content-Type' : 'application/json',
@@ -36,12 +37,12 @@ export class ServerService {
     )
   }
 
-  getSchedule(id: number){
+  getSchedule(schedule_id: number){
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
       'id': '1'
     })};
-    return this.http.get(this.httpAddress + "/schedules/" + id.toString(),
+    return this.http.get(this.httpAddress + "/schedules/" + schedule_id.toString(),
     header).pipe(
       // tap(x=> console.log(x)),
       map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
@@ -56,7 +57,7 @@ export class ServerService {
     })};
     return this.http.get(this.httpAddress + "/professors",
       header).pipe(
-        tap(x=> console.log(x)),
+        // tap(x=> console.log(x)),
         map((x)=> this.parseStringToProfessors(JSON.stringify(x))),
         catchError(this.handleError('getProfessors'))
     )
@@ -67,11 +68,11 @@ export class ServerService {
       'responseType': 'text',
       'id': '1'
     })};
-    return this.http.get(this.httpAddress + "/users/" + schedule_id,
+    return this.http.get(this.httpAddress + "/users/" + schedule_id.toString(),
       header).pipe(
-        tap(x=> console.log(x)),
-        // map((x)=> this.parseStringToProfessors(JSON.stringify(x))),
-        catchError(this.handleError('getProfessors'))
+        // tap(x=> console.log(x)),
+        map((x)=> this.parseStringToUsers(JSON.stringify(x))),
+        catchError(this.handleError('getUsersForSchedule'))
     )
   }
 
@@ -207,7 +208,7 @@ export class ServerService {
 
   parseStringToProfessors(professors: any){
     let ret: Professor[] = [];
-    console.log(professors);
+    // console.log(professors);
     let profs = JSON.parse(professors);
     profs.professors.forEach((professor: any)=>{
       ret.push(this.parseStringToProfessor(professor));
@@ -216,7 +217,7 @@ export class ServerService {
   }
 
   parseStringToProfessor(professor: any){
-    console.log(professor)
+    // console.log(professor)
     return <Professor>{
       id: professor.professor_id,
       name: professor.name,
@@ -224,5 +225,25 @@ export class ServerService {
     }
   }
 
+  parseStringToUsers(users: any){
+    let ret: User[] = [];
+    // console.log(users);
+    let us = JSON.parse(users);
+    us.users.forEach((user: any)=>{
+      ret.push(this.parseStringToUser(user));
+    });
+    return ret;
+  }
+  
+  parseStringToUser(user: any){
+    // console.log(user)
+    return <User>{
+      id: user.user_id,
+      name: user.name,
+      surname: user.surname,
+      mail: user.mail,
+      admin: user.admin
+    }
+  }
 
 }

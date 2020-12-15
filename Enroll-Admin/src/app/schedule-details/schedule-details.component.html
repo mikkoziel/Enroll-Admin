@@ -6,14 +6,14 @@
     <p>Description: {{ data?.description }}</p>  
     <p>Status: {{ data?.status }}</p> 
     
-    <button (click)="updateSchedule()">Update Schedule</button>
-    <button (click)="deleteSchedule()">Delete Schedule</button>
+    <button mat-button color="primary" (click)="updateSchedule()">Update Schedule</button>
+    <button mat-button color="primary" (click)="deleteSchedule()">Delete Schedule</button>
     
     <mat-divider></mat-divider>
-    <button (click)="addClass()">Add Class</button>
+    <button mat-button color="primary" (click)="addClass()">Add Class</button>
     <mat-accordion>
-        <mat-expansion-panel (opened)="panelOpenState"
-                             (closed)="panelOpenState">
+        <mat-expansion-panel (opened)="classpanelOpenState"
+                             (closed)="classpanelOpenState">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     Classes
@@ -23,13 +23,32 @@
             </mat-expansion-panel-header>
 
             <mat-divider></mat-divider>
-            <app-class-overview [data]="data?.classes"></app-class-overview>
+            <app-class-overview [data]="data?.classes" 
+                [profs]="professors">
+            </app-class-overview>
             <app-new-class *ngFor="let class of classes; index as i"
                 [component_id]=class 
                 [schedule_id]="data?.id"
                 (hideEvent)="hideNewClass($event)">
                 <mat-divider></mat-divider>
             </app-new-class>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+        <mat-expansion-panel (opened)="userpanelOpenState"
+                             (closed)="userpanelOpenState">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Users
+                </mat-panel-title>
+                <!-- <mat-panel-description> -->
+                <!-- </mat-panel-description> -->
+            </mat-expansion-panel-header>
+
+            <mat-divider></mat-divider>
+            <ul *ngFor="let user of users">
+                {{user.name}} {{user.surname}}
+            </ul>
         </mat-expansion-panel>
     </mat-accordion>
     <!-- <p>{{ data.id }}</p> -->

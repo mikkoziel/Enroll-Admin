@@ -1,7 +1,7 @@
 <div class="login-div">
   <div *ngIf="userEmitter | async; else showLogin">
     <h1>Hello {{ userEmitter | async }}!</h1>
-    <button (click)="logout()">Logout</button>
+    <button mat-button color="primary" (click)="logout()">Logout</button>
   </div>
   <ng-template #showLogin>
       
@@ -18,9 +18,9 @@
             <input matInput type="password" placeholder="Password." [(ngModel)]='password'>
             </mat-form-field>
         </div>
-        <button (click)="login()">Login</button>
+        <button mat-button color="primary" (click)="login()">Login</button>
         <p>If you don't have account:</p>
-        <button  [routerLink]="'/sign-up'">Create account</button>
+        <button  mat-button color="primary" [routerLink]="'/sign-up'">Create account</button>
     </div>
   </ng-template>
 </div> 
