@@ -17,11 +17,13 @@ export class ScheduleDetailsComponent implements OnInit {
   classpanelOpenState: boolean = false;
   userpanelOpenState: boolean = false;
   id: number;
-  data: Schedule;
   sub: Subscription;  
+
+  data: any;
   classes: Array<number> = [];
-  users: User[];
-  professors: Professor[];
+  // users: User[];
+  // professors: Professor[];
+  currentUser: User;
 
   constructor(private _Activatedroute:ActivatedRoute,
     private scheduleService: ScheduleService, 
@@ -30,16 +32,20 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentUser = <User> {id: 1};
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
-      this.serverService.getSchedule(this.id).subscribe((x: Schedule)=>{
-        this.data = x;
-        this.serverService.getUsersForSchedule(this.id).subscribe((a:User[])=>{
-          this.users = a;
-        })
-        this.serverService.getProfessors().subscribe((a:Professor[])=>{
-          this.professors = a;
-        })
+      // this.serverService.getSchedule(this.id).subscribe((x: Schedule)=>{
+      //   this.data = x;
+      //   this.serverService.getUsersForSchedule(this.id).subscribe((a:User[])=>{
+      //     this.users = a;
+      //   })
+      //   this.serverService.getProfessors().subscribe((a:Professor[])=>{
+      //     this.professors = a;
+      //   })
+      // })
+      this.serverService.getCombine(this.currentUser.id, this.id).subscribe((a:Professor[])=>{
+        this.data = a;
       })
     });
   }

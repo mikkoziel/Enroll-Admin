@@ -1,10 +1,10 @@
-<div class="flex-column">
+<div *ngIf="data != undefined" class="flex-column">
     <!-- <p>schedule-details works!</p> -->
     <!-- <p>{{ data?.id }}</p> -->
-    <p>Name: {{ data?.name }}</p>
-    <p>Semester: {{ data?.semester }}</p>   
-    <p>Description: {{ data?.description }}</p>  
-    <p>Status: {{ data?.status }}</p> 
+    <p>Name: {{ data.schedule.name }}</p>
+    <p>Semester: {{ data.schedule.semester }}</p>   
+    <p>Description: {{ data.schedule.description }}</p>  
+    <p>Status: {{ data.schedule.status }}</p> 
     
     <button mat-button color="primary" (click)="updateSchedule()">Update Schedule</button>
     <button mat-button color="primary" (click)="deleteSchedule()">Delete Schedule</button>
@@ -23,12 +23,10 @@
             </mat-expansion-panel-header>
 
             <mat-divider></mat-divider>
-            <app-class-overview [data]="data?.classes" 
-                [profs]="professors">
-            </app-class-overview>
+            <app-class-overview [data]="data"></app-class-overview>
             <app-new-class *ngFor="let class of classes; index as i"
                 [component_id]=class 
-                [schedule_id]="data?.id"
+                [schedule_id]="data.schedule.id"
                 (hideEvent)="hideNewClass($event)">
                 <mat-divider></mat-divider>
             </app-new-class>
@@ -46,7 +44,7 @@
             </mat-expansion-panel-header>
 
             <mat-divider></mat-divider>
-            <ul *ngFor="let user of users">
+            <ul *ngFor="let user of data.users">
                 {{user.name}} {{user.surname}}
             </ul>
         </mat-expansion-panel>

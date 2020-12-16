@@ -1,15 +1,13 @@
-<div class="flex-column">
-    <div *ngFor="let class of (data); index as i"
+<div *ngIf="data != undefined" class="flex-column">
+    <div *ngFor="let class of (data.schedule.classes); index as i"
         class="schedule-box">
         <p>{{ class.name }}</p>
         <p>Groups:</p>
-        <div *ngIf="profs !== undefined">
-            <li *ngFor="let group of class.groups">
-                {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} 
-                Professor: {{getProfessor(group.professor_id)}}
-                <button mat-button color="primary" (click)="deleteGroup(group.id)">Delete Group</button>
-            </li>    
-        </div> 
+        <li *ngFor="let group of class.groups">
+            {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} 
+            Professor: {{getProfessor(group.professor_id)}}
+            <button mat-button color="primary" (click)="deleteGroup(group.id)">Delete Group</button>
+        </li>    
         <button mat-button color="primary" (click)="addGroup(i)">Add Group</button>
         <app-new-group *ngIf="ifNewGroup(i)"
             (hideGroupEvent)="hideNewGroup(i)">

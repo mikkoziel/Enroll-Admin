@@ -32,7 +32,7 @@ export class ServerService {
     return this.http.get(this.httpAddress + "/schedules",
       header).pipe(
         // tap(x=> console.log(x)),
-        map((x)=> this.parseStringToSchedules(JSON.stringify(x))),
+        map((x)=> this.parseStringToSchedules(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getSchedules'))
     )
   }
@@ -58,7 +58,7 @@ export class ServerService {
     return this.http.get(this.httpAddress + "/professors",
       header).pipe(
         // tap(x=> console.log(x)),
-        map((x)=> this.parseStringToProfessors(JSON.stringify(x))),
+        map((x)=> this.parseStringToProfessors(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getProfessors'))
     )
   }
@@ -71,11 +71,23 @@ export class ServerService {
     return this.http.get(this.httpAddress + "/users/" + schedule_id.toString(),
       header).pipe(
         // tap(x=> console.log(x)),
-        map((x)=> this.parseStringToUsers(JSON.stringify(x))),
+        map((x)=> this.parseStringToUsers(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getUsersForSchedule'))
     )
   }
 
+  getCombine(user_id: number, schedule_id:number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': user_id.toString()
+    })};
+    return this.http.get(this.httpAddress + "/combine/" + schedule_id.toString(),
+      header).pipe(
+        // tap(x=> console.log(x)),
+        map((x)=> this.parseStringToCombine(JSON.parse(JSON.stringify(x)))),
+        catchError(this.handleError('getUPForUser'))
+    )
+  }
   // --ADD------------------------------------------------------
   addSchedule(id:number, schedule: Schedule){
     // console.log(JSON.stringify(schedule))
@@ -175,8 +187,8 @@ export class ServerService {
   parseStringToSchedules(schedules: any){
     let ret: Schedule[] = [];
     // console.log(schedules);
-    let sch = JSON.parse(schedules);
-    sch.schedules.forEach((schedule: any)=>{
+    // let sch = JSON.parse(schedules);
+    schedules.schedules.forEach((schedule: any)=>{
       ret.push(this.parseStringToSchedule(schedule));
     });
     return ret;
@@ -206,10 +218,10 @@ export class ServerService {
     };
   }
 
-  parseStringToProfessors(professors: any){
+  parseStringToProfessors(profs: any){
     let ret: Professor[] = [];
     // console.log(professors);
-    let profs = JSON.parse(professors);
+    // let profs = JSON.parse(professors);
     profs.professors.forEach((professor: any)=>{
       ret.push(this.parseStringToProfessor(professor));
     });
@@ -228,8 +240,8 @@ export class ServerService {
   parseStringToUsers(users: any){
     let ret: User[] = [];
     // console.log(users);
-    let us = JSON.parse(users);
-    us.users.forEach((user: any)=>{
+    // let us = JSON.parse(users);
+    users.users.forEach((user: any)=>{
       ret.push(this.parseStringToUser(user));
     });
     return ret;
@@ -244,6 +256,14 @@ export class ServerService {
       mail: user.mail,
       admin: user.admin
     }
+  }
+
+  parseStringToCombine(comb: any){
+    let data={};
+    data["schedule"] = this.parseStringToSchedule(comb.schedule)
+    data["profs"] = this.parseStringToProfessors({ "professors": comb.professors})
+    data["users"] = this.parseStringToUsers({"users": comb.users})
+    return data;
   }
 
 }
