@@ -6,9 +6,9 @@
         <li *ngFor="let group of class.groups">
             {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} 
             Professor: {{getProfessor(group.professor_id)}}
-            <button mat-button color="primary" (click)="deleteGroup(group.id)">Delete Group</button>
+            <button mat-stroked-button color="primary" (click)="deleteGroup(group.id)">Delete Group</button>
         </li>    
-        <button mat-button color="primary" (click)="addGroup(i)">Add Group</button>
+        <button mat-stroked-button color="primary" (click)="addGroup(i)">Add Group</button>
         <app-new-group *ngIf="ifNewGroup(i)"
             (hideGroupEvent)="hideNewGroup(i)">
         </app-new-group>

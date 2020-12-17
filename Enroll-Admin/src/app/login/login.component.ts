@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, of } from 'rxjs';
+import { User } from '../interfaces/user';
 import { UserService } from '../services/user.service';
 // import firebase from 'firebase/app';
 
@@ -9,13 +11,13 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  mail: any;
-  password: any;
-  user = null;
+  modelForm: FormGroup;
+  currentUser: User = null;
 
-  userEmitter = new BehaviorSubject(this.user);   
+  // userEmitter = new BehaviorSubject(this.user);   
 
   constructor(
+    private formBuilder : FormBuilder,
     // private authService: AuthService,
     // private wycieczkiService: WycieczkiServiceService,
     // private dbService: DbService
@@ -23,6 +25,10 @@ export class LoginComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.modelForm = this.formBuilder.group({
+      mail: ['', Validators.required],
+      password: ['', Validators.required]
+    })
     // this.getUser();
   }
 
@@ -44,7 +50,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    this.userService.login(this.mail, this.password);
+    this.userService.login(this.modelForm.value.mail, this.modelForm.value.password);
     // this.authService.login(this.mail, this.password)
   }
 

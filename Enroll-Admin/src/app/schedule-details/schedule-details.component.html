@@ -6,11 +6,11 @@
     <p>Description: {{ data.schedule.description }}</p>  
     <p>Status: {{ data.schedule.status }}</p> 
     
-    <button mat-button color="primary" (click)="updateSchedule()">Update Schedule</button>
-    <button mat-button color="primary" (click)="deleteSchedule()">Delete Schedule</button>
+    <button mat-stroked-button color="primary" (click)="updateSchedule()">Update Schedule</button>
+    <button mat-stroked-button color="primary" (click)="deleteSchedule()">Delete Schedule</button>
     
     <mat-divider></mat-divider>
-    <button mat-button color="primary" (click)="addClass()">Add Class</button>
+    <button mat-stroked-button color="primary" (click)="addClass()">Add Class</button>
     <mat-accordion>
         <mat-expansion-panel (opened)="classpanelOpenState"
                              (closed)="classpanelOpenState">

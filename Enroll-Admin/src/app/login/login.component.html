@@ -1,26 +1,26 @@
 <div class="login-div">
-  <div *ngIf="userEmitter | async; else showLogin">
-    <h1>Hello {{ userEmitter | async }}!</h1>
-    <button mat-button color="primary" (click)="logout()">Logout</button>
+  <div *ngIf="currentUser; else showLogin">
+      <h1>Hello {{ currentUser.name }}!</h1>
+    <button mat-stroked-button color="primary" (click)="logout()">Logout</button>
   </div>
   <ng-template #showLogin>
       
     <div class="flex-column">
         <p>Please login.</p>
-        <div mat-dialog-content class="flex-column">
-            <mat-form-field class="example-full-width">
+        <form [formGroup]="modelForm" class="flex-column">
+          <mat-form-field class="example-full-width">
             <mat-label>E-mail</mat-label>
-            <input matInput type="email" placeholder="E-mail" [(ngModel)]='mail'>
-            </mat-form-field>
-        
-            <mat-form-field class="example-full-width">
+            <input matInput type="email" formControlName="mail" placeholder="E-mail">
+          </mat-form-field>
+      
+          <mat-form-field class="example-full-width">
             <mat-label>Password</mat-label>
-            <input matInput type="password" placeholder="Password." [(ngModel)]='password'>
-            </mat-form-field>
-        </div>
-        <button mat-button color="primary" (click)="login()">Login</button>
+            <input matInput type="password" formControlName="password" placeholder="Password">
+          </mat-form-field>
+        </form >
+        <button mat-stroked-button color="primary" (click)="login()">Login</button>
         <p>If you don't have account:</p>
-        <button  mat-button color="primary" [routerLink]="'/sign-up'">Create account</button>
+        <button  mat-stroked-button color="primary" [routerLink]="'/sign-up'">Create account</button>
     </div>
   </ng-template>
 </div> 
