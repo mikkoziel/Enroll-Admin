@@ -5,6 +5,7 @@ import { Class } from '../interfaces/class';
 import { Professor } from '../interfaces/professor';
 import { Schedule } from '../interfaces/schedule';
 import { User } from '../interfaces/user';
+import { UserSchedule } from '../interfaces/user-schedule';
 import { ScheduleService } from '../services/schedule.service';
 import { ServerService } from '../services/server.service';
 
@@ -16,14 +17,18 @@ import { ServerService } from '../services/server.service';
 export class ScheduleDetailsComponent implements OnInit {
   classpanelOpenState: boolean = false;
   userpanelOpenState: boolean = false;
+  addUserPanelOpenState: boolean = false;
   id: number;
   sub: Subscription;  
 
   data: any;
-  classes: Array<number> = [];
+  addClassesArr: Array<number> = [];
   // users: User[];
   // professors: Professor[];
   currentUser: User;
+
+  addUserFlag: boolean = false;
+  allUsers: User[];
 
   constructor(private _Activatedroute:ActivatedRoute,
     private scheduleService: ScheduleService, 
@@ -60,15 +65,40 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   addClass(){
-    this.classes.push(this.classes.length);
-    console.log(this.classes)
+    this.addClassesArr.push(this.addClassesArr.length);
+    console.log(this.addClassesArr)
   }
 
   hideNewClass(key: number){
-    const index = this.classes.indexOf(key, 0);
+    const index = this.addClassesArr.indexOf(key, 0);
     if (index > -1) {
-      this.classes.splice(index, 1);
+      this.addClassesArr.splice(index, 1);
     }
+  }
+
+  openAddUser(){
+    this.serverService.getUsers().subscribe((x:User[])=> {
+      this.allUsers = x;
+      console.log(this.allUsers)
+      this.addUserFlag= true;
+    })
+  }
+
+  checkIfUserAdded(user_id: number){
+    return this.data.users.some((e) => e.id == user_id)
+  }
+
+  addUser(user_id: number){
+    let us = <UserSchedule>{
+      user_id: user_id,
+      schedule_id: this.id,
+      type: false
+    }
+    this.serverService.addUserToSchedule(us).subscribe((x:number)=>{
+      if(x>0){
+        console.log(x)
+      }
+    })
   }
 
 }

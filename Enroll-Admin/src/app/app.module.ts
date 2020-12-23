@@ -6,10 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material/expansion';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatTreeModule} from '@angular/material/tree';
-import {MatSelectModule} from '@angular/material/select';
-import {MatButtonModule} from '@angular/material/button';
+import { MatDividerModule} from '@angular/material/divider';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,35 +25,42 @@ import { NewClassComponent } from './new-class/new-class.component';
 import { NewGroupComponent } from './new-group/new-group.component';
 import { ClassOverviewComponent } from './class-overview/class-overview.component';
 
+const components = [
+  AppComponent,
+  LoginComponent,
+  AdminPanelComponent,
+  SideNavComponent,
+  NewScheduleComponent,
+  ScheduleOverviewComponent,
+  ScheduleDetailsComponent,
+  NewClassComponent,
+  NewGroupComponent,
+  ClassOverviewComponent,
+];
+
+const material = [
+  MatSidenavModule,
+  MatFormFieldModule,
+  MatExpansionModule,
+  MatDividerModule,
+  MatTreeModule,
+  MatSelectModule,
+  MatButtonModule,
+];
+
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    AdminPanelComponent,
-    SideNavComponent,
-    NewScheduleComponent,
-    ScheduleOverviewComponent,
-    ScheduleDetailsComponent,
-    NewClassComponent,
-    NewGroupComponent,
-    ClassOverviewComponent,
-    
+    components
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     NgbModule,
-    MatSidenavModule,
-    MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    MatExpansionModule,
-    MatDividerModule,
     HttpClientModule,
-    MatTreeModule,
-    MatSelectModule,
-    MatButtonModule,
+    material
   ],
   providers: [],
   bootstrap: [AppComponent]

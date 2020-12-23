@@ -76,6 +76,19 @@ export class ServerService {
     )
   }
 
+  getUsers() {
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '1'
+    })};
+    return this.http.get(this.httpAddress + "/users",
+      header).pipe(
+        // tap(x=> console.log(x)),
+        map((x)=> this.parseStringToUsers(JSON.parse(JSON.stringify(x)))),
+        catchError(this.handleError('getUsers'))
+    )
+  }
+
   getCombine(user_id: number, schedule_id:number){
     const header = { headers: new HttpHeaders({
       'responseType': 'text',

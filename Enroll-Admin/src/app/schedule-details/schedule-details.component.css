@@ -5,3 +5,7 @@
     align-content: center;
     margin: 32px 20%;
 }
+
+.flex-child {
+    margin: 8px 0;
+}
