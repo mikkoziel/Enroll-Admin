@@ -79,8 +79,7 @@ export class ScheduleDetailsComponent implements OnInit {
   openAddUser(){
     this.serverService.getUsers().subscribe((x:User[])=> {
       this.allUsers = x;
-      console.log(this.allUsers)
-      this.addUserFlag= true;
+      this.addUserFlag= !this.addUserFlag;
     })
   }
 
@@ -94,10 +93,8 @@ export class ScheduleDetailsComponent implements OnInit {
       schedule_id: this.id,
       type: false
     }
-    this.serverService.addUserToSchedule(us).subscribe((x:number)=>{
-      if(x>0){
-        console.log(x)
-      }
+    this.serverService.addUserToSchedule(us).subscribe((x:User[])=>{
+      this.data.users=x;
     })
   }
 

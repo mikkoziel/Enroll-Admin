@@ -151,11 +151,12 @@ export class ServerService {
       'responseType': 'text',
       'id': '0'
     })};
-    return this.http.post(this.httpAddress + "user-sch",
+    return this.http.post(this.httpAddress + "/user-sch",
     JSON.stringify(us),
     header).pipe(
       tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      map((x)=> this.parseStringToUsers(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addUserToSchedule'))
     )
   }
@@ -165,7 +166,7 @@ export class ServerService {
       'responseType': 'text',
       'id': '0'
     })};
-    return this.http.post(this.httpAddress + "prof",
+    return this.http.post(this.httpAddress + "/prof",
     JSON.stringify(prof),
     header).pipe(
       tap(x=> console.log(x)),
