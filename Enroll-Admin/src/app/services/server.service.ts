@@ -188,6 +188,23 @@ export class ServerService {
 
   }
 
+  // --UPDATE------------------------------------------------------
+  updateSchedule(id:number, schedule: Schedule){
+    // console.log(JSON.stringify(schedule))
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': id.toString()
+    })};
+    return this.http.put(this.httpAddress + "/schedules/" + schedule.id,
+    JSON.stringify(schedule),
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addSchedule'))
+    )
+  }
+
+
   // --ERROR-----------------------------------------------------
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
