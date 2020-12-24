@@ -10,6 +10,7 @@ import { MatDividerModule} from '@angular/material/divider';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -46,6 +47,7 @@ const material = [
   MatTreeModule,
   MatSelectModule,
   MatButtonModule,
+  MatDatepickerModule,
 ];
 
 @NgModule({

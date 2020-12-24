@@ -30,10 +30,12 @@ export class ScheduleDetailsComponent implements OnInit {
   addUserFlag: boolean = false;
   allUsers: User[];
 
+  minDate: Date;
+
   constructor(private _Activatedroute:ActivatedRoute,
     private scheduleService: ScheduleService, 
     private serverService: ServerService) { 
-  
+      this.minDate = new Date();
   }
 
   ngOnInit(): void {
@@ -101,7 +103,7 @@ export class ScheduleDetailsComponent implements OnInit {
   startEnrollment(){
     this.data.schedule.status = "ENROLLMENT";
     console.log(this.data)
-    this.serverService.updateSchedule(this.currentUser.id, this.data.schedule).subscribe((x)=>{
+    this.serverService.startEnroll(this.currentUser.id, this.data.schedule).subscribe((x)=>{
       this.data.schedule = x;
     })
   }
