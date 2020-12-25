@@ -31,6 +31,7 @@ export class ScheduleDetailsComponent implements OnInit {
   allUsers: User[];
 
   minDate: Date;
+  startEnroll: boolean = false;
 
   constructor(private _Activatedroute:ActivatedRoute,
     private scheduleService: ScheduleService, 
@@ -100,12 +101,12 @@ export class ScheduleDetailsComponent implements OnInit {
     })
   }
 
-  startEnrollment(){
-    this.data.schedule.status = "ENROLLMENT";
-    console.log(this.data)
-    this.serverService.startEnroll(this.currentUser.id, this.data.schedule).subscribe((x)=>{
-      this.data.schedule = x;
-    })
+  showEnrollment(){
+    this.startEnroll = !this.startEnroll;
+  }
+
+  checkEnrollment(){
+    return this.data.schedule.status=="ENROLLMENT";
   }
 
 }

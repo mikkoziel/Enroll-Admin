@@ -1,0 +1,13 @@
+<div>
+    <form [formGroup]="modelForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Choose a end date for enrollment</mat-label>
+            <input matInput name="endDate" formControlName="endDate" [min]="startDate" [matDatepicker]="picker" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <ngb-timepicker name="end" formControlName="endTime" [spinners]=true [minuteStep]=30></ngb-timepicker>
+        <button mat-raised-button color="warn" type="submit">Start Enroll</button>
+    </form>
+</div>

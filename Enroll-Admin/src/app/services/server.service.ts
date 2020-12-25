@@ -8,6 +8,7 @@ import { Group } from '../interfaces/group';
 import { Professor } from '../interfaces/professor';
 import { UserSchedule } from '../interfaces/user-schedule';
 import { User } from '../interfaces/user';
+import { Enrollment } from '../interfaces/enrollment';
 
 const httpOptions = { headers: new HttpHeaders({ 
   'Content-Type' : 'application/json',
@@ -204,14 +205,14 @@ export class ServerService {
     )
   }
 
-  startEnroll(id:number, schedule: Schedule){
+  startEnroll(id:number, enroll: Enrollment){
     // console.log(JSON.stringify(schedule))
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
       'id': id.toString()
     })};
     return this.http.put(this.httpAddress + "/enroll",
-    JSON.stringify(schedule),
+    JSON.stringify(enroll),
     header).pipe(
       tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),

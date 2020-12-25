@@ -11,6 +11,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,9 @@ import { ScheduleDetailsComponent } from './schedule-details/schedule-details.co
 import { NewClassComponent } from './new-class/new-class.component';
 import { NewGroupComponent } from './new-group/new-group.component';
 import { ClassOverviewComponent } from './class-overview/class-overview.component';
+import { StartEnrollComponent } from './start-enroll/start-enroll.component';
+import { DatePipe } from '@angular/common';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const components = [
   AppComponent,
@@ -48,11 +52,14 @@ const material = [
   MatSelectModule,
   MatButtonModule,
   MatDatepickerModule,
+  MatNativeDateModule,
+  MatInputModule,
 ];
 
 @NgModule({
   declarations: [
-    components
+    components,
+    StartEnrollComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +71,9 @@ const material = [
     HttpClientModule,
     material
   ],
-  providers: [],
+  providers: [DatePipe, 
+    MatDatepickerModule,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

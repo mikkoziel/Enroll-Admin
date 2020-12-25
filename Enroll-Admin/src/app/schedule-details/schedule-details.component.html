@@ -10,14 +10,10 @@
     
     <div class="flex-child">
         <button mat-stroked-button color="primary" (click)="updateSchedule()">Modify Schedule</button>
-        <button mat-stroked-button color="primary" (click)="startEnrollment()">Start Enrollment</button>
+        <button mat-stroked-button color="primary" (click)="showEnrollment()" [disabled]="checkEnrollment()">Start Enrollment</button>
         <button mat-stroked-button color="primary" (click)="deleteSchedule()">Delete Schedule</button>
     </div>
-    <div>
-        <mat-form-field>
-            <input matInput type="datetime-local" placeholder="start date">
-        </mat-form-field>
-    </div>
+    <app-start-enroll *ngIf="startEnroll" [data]="data" [currentUser]="currentUser"></app-start-enroll>
     
     <mat-divider></mat-divider>
 
