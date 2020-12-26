@@ -14,12 +14,9 @@ import { ServerService } from '../services/server.service';
 export class NewGroupComponent implements OnInit {
   modelForm: FormGroup;
   errors = [];
-  // @Input() class_id: number;
-  // @Output() hideGroupEvent = new EventEmitter<boolean>();
+
   professors: Professor[] = [];
   profpanelOpenState: boolean = false;
-
-  // profsEmitter = new BehaviorSubject<Professor[]>(this.professors); 
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {class_id: number},
@@ -29,7 +26,6 @@ export class NewGroupComponent implements OnInit {
   ngOnInit(): void {
     this.serverService.getProfessors().subscribe((x:Professor[])=>{
       this.professors = x;
-      // this.profsEmitter.next(x);
     })
 
     this.modelForm = this.formBuilder.group({
