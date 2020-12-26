@@ -1,0 +1,14 @@
+<div>
+    <h2  mat-dialog-title>Add users:</h2>
+    <mat-dialog-content>
+        <ul *ngFor="let user of allUsers">
+            {{user.name}} {{user.surname}}
+            <button *ngIf="!checkIfUserAdded(user.id)" mat-stroked-button color="primary" (click)="addUser(user.id)">Add</button>
+            <button *ngIf="checkIfUserAdded(user.id)" mat-stroked-button color="primary" disabled=true>Already added</button>
+        </ul>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions>
+        <button mat-stroked-button color="primary" [mat-dialog-close]="data">Close</button>  
+    </mat-dialog-actions>
+</div>

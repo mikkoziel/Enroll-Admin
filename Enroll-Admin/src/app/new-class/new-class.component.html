@@ -1,23 +1,22 @@
-<div class="flex-column">
-    <h3>Add new class!</h3>
-    <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="flex-column">
-        <div class="flex-row div-margin">
-            <div class="label"><label>Name:</label></div>
-            <input name="name" formControlName="name"  type="text">
-        </div>
+<div>
+    <h2 mat-dialog-title>Add new class!</h2>
+    
+    <mat-dialog-content>
+        <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)">
+            <mat-form-field appearance="fill">
+                <mat-label>Name:</mat-label>
+                <input matInput name="name" formControlName="name"  type="text">
+            </mat-form-field>
+            
+            <button mat-stroked-button color="primary" type="submit">Submit</button>
+            <button mat-stroked-button color="primary" type="button" mat-dialog-close>Close</button>
+
+            <div *ngIf="errors.length != 0">
+                <p *ngFor='let error_text of errors'>
+                    {{error_text}}
+                </p>
+            </div>
+        </form>
         
-        <div class="div-margin">
-            <button mat-stroked-button color="primary" type="submit"> + </button>
-        </div>
-        
-        <div class="div-margin">
-            <button mat-stroked-button color="primary" type="button" (click)="hideNewClass()"> - </button>
-        </div>
-        
-        <div *ngIf="errors.length != 0">
-            <p *ngFor='let error_text of errors'>
-                {{error_text}}
-            </p>
-        </div>
-    </form>
+    </mat-dialog-content>
 </div>

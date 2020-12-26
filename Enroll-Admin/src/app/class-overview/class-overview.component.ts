@@ -5,6 +5,8 @@ import { Class } from '../interfaces/class';
 import { WeekDay } from '@angular/common';
 import { Professor } from '../interfaces/professor';
 import { BehaviorSubject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { NewGroupComponent } from '../new-group/new-group.component';
 
 
 @Component({
@@ -14,58 +16,36 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ClassOverviewComponent implements OnInit {
   @Input() data: any;
-  // @Input() profs: Professor[];
-  newGroup: boolean[];
-
+  
   profs_subject: BehaviorSubject<Professor>[];
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.newGroup = [];
-    this.initNewGroup()
   }
 
   getWeekDay(day: number){
     return WeekDay[day];
   }
 
-  initNewGroup(){
-    for (var i = 0; i < this.data?.length; i++) {
-      this.newGroup.push(false);
-    }
-  }
-
   ngOnChanges(changes: SimpleChanges) {
-    // if(changes["profs"].currentValue != undefined){
-    //   this.profs.forEach((p:Professor)=> {
-    //     this.profs_subject.push(new BehaviorSubject<Professor>(p))
-    //   })
-    // }
   }
 
   deleteGroup(id: any){
 
   }
 
-  addGroup(i: string | number){
-    if(!this.newGroup.length){
-      this.initNewGroup()
-    }
-    // console.log(i)
-    this.newGroup[i] = true;  
-  }
+  addGroup(id: number){ 
+    const dialogRef = this.dialog.open(NewGroupComponent, {
+      width: '400px',
+      data: {class_id: id}
+    });
 
-  ifNewGroup(i: string | number){
-    // console.log(this.newGroup)
-    if(!this.newGroup.length){
-      this.initNewGroup()
-    }
-    return this.newGroup[i];
-  }
-
-  hideNewGroup(i: string | number){
-    this.newGroup[i] = false;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.data.users = result.users;
+    });
   }
 
   getProfessor(index: number){

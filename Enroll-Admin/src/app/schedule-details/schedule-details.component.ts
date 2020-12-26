@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Class } from '../interfaces/class';
+
+import {MatDialog} from '@angular/material/dialog';
+
 import { Professor } from '../interfaces/professor';
-import { Schedule } from '../interfaces/schedule';
 import { User } from '../interfaces/user';
 import { UserSchedule } from '../interfaces/user-schedule';
 import { ScheduleService } from '../services/schedule.service';
 import { ServerService } from '../services/server.service';
+import { StartEnrollComponent } from '../start-enroll/start-enroll.component';
+import { AddUserComponent } from '../add-user/add-user.component';
+import { NewGroupComponent } from '../new-group/new-group.component';
+import { NewClassComponent } from '../new-class/new-class.component';
 
 @Component({
   selector: 'app-schedule-details',
@@ -23,8 +28,6 @@ export class ScheduleDetailsComponent implements OnInit {
 
   data: any;
   addClassesArr: Array<number> = [];
-  // users: User[];
-  // professors: Professor[];
   currentUser: User;
 
   addUserFlag: boolean = false;
@@ -34,7 +37,7 @@ export class ScheduleDetailsComponent implements OnInit {
   startEnroll: boolean = false;
 
   constructor(private _Activatedroute:ActivatedRoute,
-    private scheduleService: ScheduleService, 
+    public dialog: MatDialog,
     private serverService: ServerService) { 
       this.minDate = new Date();
   }
@@ -43,15 +46,6 @@ export class ScheduleDetailsComponent implements OnInit {
     this.currentUser = <User> {id: 1};
     this.sub=this._Activatedroute.paramMap.subscribe(params => { 
       this.id = Number(params.get('id')); 
-      // this.serverService.getSchedule(this.id).subscribe((x: Schedule)=>{
-      //   this.data = x;
-      //   this.serverService.getUsersForSchedule(this.id).subscribe((a:User[])=>{
-      //     this.users = a;
-      //   })
-      //   this.serverService.getProfessors().subscribe((a:Professor[])=>{
-      //     this.professors = a;
-      //   })
-      // })
       this.serverService.getCombine(this.currentUser.id, this.id).subscribe((a:Professor[])=>{
         this.data = a;
       })
@@ -59,7 +53,6 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   deleteSchedule(){
-    // this.scheduleService.deleteSchedule(this.data);
     this.serverService.deleteSchedule(this.data.id)
   }
 
@@ -68,8 +61,15 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   addClass(){
-    this.addClassesArr.push(this.addClassesArr.length);
-    console.log(this.addClassesArr)
+    const dialogRef = this.dialog.open(NewClassComponent, {
+      width: '400px',
+      data: {schedule_id: this.id}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.data.users = result.users;
+    });
   }
 
   hideNewClass(key: number){
@@ -80,29 +80,25 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   openAddUser(){
-    this.serverService.getUsers().subscribe((x:User[])=> {
-      this.allUsers = x;
-      this.addUserFlag= !this.addUserFlag;
-    })
-  }
+    const dialogRef = this.dialog.open(AddUserComponent, {
+      data: {id: this.id, users: this.data.users}
+    });
 
-  checkIfUserAdded(user_id: number){
-    return this.data.users.some((e) => e.id == user_id)
-  }
-
-  addUser(user_id: number){
-    let us = <UserSchedule>{
-      user_id: user_id,
-      schedule_id: this.id,
-      type: false
-    }
-    this.serverService.addUserToSchedule(us).subscribe((x:User[])=>{
-      this.data.users=x;
-    })
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.data.users = result.users;
+    });
   }
 
   showEnrollment(){
-    this.startEnroll = !this.startEnroll;
+    const dialogRef = this.dialog.open(StartEnrollComponent, {
+      data: {data: this.data, currentUser: this.currentUser}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.data.schedule = result.schedule;
+    });
   }
 
   checkStartEnrollment(){

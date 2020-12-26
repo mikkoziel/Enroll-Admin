@@ -1,7 +1,7 @@
 <div *ngIf="data != undefined" class="flex-column">
     <!-- <p>schedule-details works!</p> -->
     <!-- <p>{{ data?.id }}</p> -->
-    <div class="schedule-desc flex-child">
+    <div class="flex-child">
         <p>Name: {{ data.schedule.name }}</p>
         <p>Semester: {{ data.schedule.semester }}</p>   
         <p>Description: {{ data.schedule.description }}</p>  
@@ -13,7 +13,7 @@
         <button mat-stroked-button color="primary" (click)="showEnrollment()" [disabled]="checkStartEnrollment()">Start Enrollment</button>
         <button mat-stroked-button color="primary" (click)="deleteSchedule()">Delete Schedule</button>
     </div>
-    <app-start-enroll *ngIf="startEnroll" [data]="data" [currentUser]="currentUser" (submitItemEvent)="showEnrollment()"></app-start-enroll>
+    <!-- <app-start-enroll *ngIf="startEnroll" [data]="data" [currentUser]="currentUser" (submitItemEvent)="showEnrollment()"></app-start-enroll> -->
     
     <mat-divider></mat-divider>
 
@@ -24,8 +24,6 @@
                 <mat-panel-title>
                     Classes
                 </mat-panel-title>
-                <!-- <mat-panel-description> -->
-                <!-- </mat-panel-description> -->
             </mat-expansion-panel-header>
 
             <mat-divider></mat-divider>
@@ -35,12 +33,6 @@
 
     <div class="flex-child">
         <button mat-stroked-button color="primary" (click)="addClass()">Add Class</button>
-        <app-new-class *ngFor="let class of addClassesArr; index as i"
-            [component_id]=class 
-            [schedule_id]="data.schedule.id"
-            (hideEvent)="hideNewClass($event)">
-            <mat-divider></mat-divider>
-        </app-new-class>
     </div>
 
     <mat-divider></mat-divider>
@@ -52,8 +44,6 @@
                 <mat-panel-title>
                     Users
                 </mat-panel-title>
-                <!-- <mat-panel-description> -->
-                <!-- </mat-panel-description> -->
             </mat-expansion-panel-header>
 
             <mat-divider></mat-divider>
@@ -63,25 +53,8 @@
         </mat-expansion-panel>
     </mat-accordion>
 
+
     <div class="flex-child">
         <button mat-stroked-button color="primary" (click)="openAddUser()">Add User</button>
-        
-        <mat-accordion *ngIf="addUserFlag" class="flex-child">
-            <mat-expansion-panel (opened)="addUserPanelOpenState"
-                                (closed)="addUserPanelOpenState">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Add User
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-
-                <mat-divider></mat-divider>
-                <ul *ngFor="let user of allUsers">
-                    {{user.name}} {{user.surname}}
-                    <button *ngIf="!checkIfUserAdded(user.id)" mat-stroked-button color="primary" (click)="addUser(user.id)">Add</button>
-                    <button *ngIf="checkIfUserAdded(user.id)" mat-stroked-button color="primary" disabled=true>Already added</button>
-                </ul>
-            </mat-expansion-panel>
-        </mat-accordion>
     </div>
 </div>

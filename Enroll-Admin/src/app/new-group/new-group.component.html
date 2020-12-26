@@ -1,53 +1,41 @@
 <div class="flex-column">
-    <h3>Add new group!</h3>
-    <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="flex-column">
-        <div class="flex-row div-margin">
-            <div class="label"><label>Day:</label></div>
-            <mat-form-field appearance="fill">
-                <mat-label>Day</mat-label>
-                <mat-select>
-                  <mat-option [value]=1>Monday</mat-option>
-                  <mat-option [value]=2>Tuesday</mat-option>
-                  <mat-option [value]=3>Wednesday</mat-option>
-                  <mat-option [value]=4>Thursday</mat-option>
-                  <mat-option [value]=5>Friday</mat-option>
-                  <mat-option [value]=6>Saturday</mat-option>
-                  <mat-option [value]=7>Sunday</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+    <h3  mat-dialog-title>Add new group for Class {{data.class_id}}!</h3>
+    <form [formGroup]="modelForm" (ngSubmit)="onSubmit()" class="flex-column">
+        <mat-form-field appearance="fill">
+            <mat-label>Day</mat-label>
+            <mat-select formControlName="day">
+                <mat-option [value]=1>Monday</mat-option>
+                <mat-option [value]=2>Tuesday</mat-option>
+                <mat-option [value]=3>Wednesday</mat-option>
+                <mat-option [value]=4>Thursday</mat-option>
+                <mat-option [value]=5>Friday</mat-option>
+                <mat-option [value]=6>Saturday</mat-option>
+                <mat-option [value]=7>Sunday</mat-option>
+            </mat-select>
+        </mat-form-field>
 
-        <div class="flex-row div-margin">
-            <div class="label"><label>Start:</label></div>
+        <div class="flex-row">
+            <label class="label">Start:</label>
             <ngb-timepicker name="start" formControlName="start"></ngb-timepicker>
             <!-- <input name="start" formControlName="start"  type="datetime-local"> -->
         </div>
         
-        <div class="flex-row div-margin">
-            <div class="label"><label>End:</label></div>  
+        <div class="flex-row">
+            <label class="label">End:</label> 
             <ngb-timepicker name="end" formControlName="end"></ngb-timepicker>
         </div>
         
-        <div class="flex-row div-margin">
-            <div class="label"><label>Professor:</label></div>
-            <mat-form-field appearance="fill">
-                <mat-label>Professor</mat-label>
-                <mat-select>
-                    <mat-option *ngFor="let professor of (profsEmitter | async)" [value]="professor.id">
-                        {{professor.surname}} {{professor.name}} 
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+        <mat-form-field appearance="fill">
+            <mat-label>Professor</mat-label>
+            <mat-select formControlName="professor_id">
+                <mat-option *ngFor="let professor of professors" [value]="professor.id">
+                    {{professor.surname}} {{professor.name}} 
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-        <div class="div-margin">
-            <button mat-stroked-button color="primary" type="submit"> + </button>
-            <!-- <button type="button" (click)="hideNewClass()"> - </button> -->
-        </div>
-        
-        <div class="div-margin">
-            <button mat-stroked-button color="primary" type="button" (click)="hideNewGroup()"> - </button>
-        </div>
+        <button mat-stroked-button color="primary" type="submit">Add</button>
+        <button mat-stroked-button color="primary" type="button" mat-dialog-close>Close</button>
 
         <div *ngIf="errors.length != 0">
             <p *ngFor='let error_text of errors'>

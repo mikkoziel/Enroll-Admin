@@ -10,8 +10,10 @@ import { MatDividerModule} from '@angular/material/divider';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +30,7 @@ import { NewGroupComponent } from './new-group/new-group.component';
 import { ClassOverviewComponent } from './class-overview/class-overview.component';
 import { StartEnrollComponent } from './start-enroll/start-enroll.component';
 import { DatePipe } from '@angular/common';
-import { MatNativeDateModule } from '@angular/material/core';
+import { AddUserComponent } from './add-user/add-user.component';
 
 const components = [
   AppComponent,
@@ -54,12 +56,14 @@ const material = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatInputModule,
+  MatDialogModule,
 ];
 
 @NgModule({
   declarations: [
     components,
-    StartEnrollComponent
+    StartEnrollComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +74,13 @@ const material = [
     ReactiveFormsModule,
     HttpClientModule,
     material
+  ],
+  entryComponents: [
+    StartEnrollComponent,
+    AddUserComponent,
+    ScheduleDetailsComponent,
+    NewClassComponent,
+    NewGroupComponent,
   ],
   providers: [DatePipe, 
     MatDatepickerModule,

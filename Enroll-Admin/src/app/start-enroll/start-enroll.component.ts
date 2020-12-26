@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Enrollment } from '../interfaces/enrollment';
 import { User } from '../interfaces/user';
 import { ServerService } from '../services/server.service';
@@ -11,17 +12,15 @@ import { ServerService } from '../services/server.service';
   styleUrls: ['./start-enroll.component.css']
 })
 export class StartEnrollComponent implements OnInit {
-  @Input() data:any;
-  @Input() currentUser: User;
-  @Output() submitItemEvent = new EventEmitter<boolean>();
-  
   modelForm: FormGroup = null;
   startDate: Date;
 
   constructor(
     private formBuilder : FormBuilder, 
     private serverService: ServerService,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe,
+    @Inject(MAT_DIALOG_DATA) public data: {data: any, currentUser: User},
+    public dialogRef: MatDialogRef<StartEnrollComponent>) { }
 
   ngOnInit(): void {
     this.startDate = new Date();
@@ -35,24 +34,20 @@ export class StartEnrollComponent implements OnInit {
     let endDate = this.modelForm.value.endDate
     let time = this.modelForm.value.endTime
     endDate.setHours(time.hour, time.minute, 0)
-    // console.log("Tutaj")
 
     if(endDate.getTime()>this.startDate.getTime()){
-      // console.log("Tutaj2")
-      this.data.schedule.status = "ENROLLMENT";
-      // console.log(this.data)
+      this.data.data.schedule.status = "ENROLLMENT";
       let enroll: Enrollment = <Enrollment>{
-        schedule_id: this.data.schedule.id,
+        schedule_id: this.data.data.schedule.id,
         startDate: this.datePipe.transform(this.startDate, 'dd/MM/yyyy HH:mm'),
         endDate: this.datePipe.transform(endDate, 'dd/MM/yyyy HH:mm')
       }
-      // console.log(enroll)
-      this.serverService.startEnroll(this.currentUser.id, enroll).subscribe((x)=>{
-        this.data.schedule = x;
+      this.serverService.startEnroll(this.data.currentUser.id, enroll).subscribe((x)=>{
+        this.data.data.schedule = x;
       })
     }
     
-    this.submitItemEvent.emit(true);
+    this.dialogRef.close(this.data.data);
   }
 
 }
