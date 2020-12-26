@@ -26,13 +26,43 @@
         </div>
         
         <mat-form-field appearance="fill">
-            <mat-label>Professor</mat-label>
+            <mat-label>Choose existing Professor</mat-label>
             <mat-select formControlName="professor_id">
                 <mat-option *ngFor="let professor of professors" [value]="professor.id">
                     {{professor.surname}} {{professor.name}} 
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        <div>
+            <p>or</p>
+            <!-- <label class="label">Add new Professor</label> -->
+        </div>
+        
+        <mat-accordion class="flex-child">
+            <mat-expansion-panel (opened)="profpanelOpenState"
+                                (closed)="profpanelOpenState">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Add new Professor
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-form-field appearance="fill">
+                    <mat-label>Professor title</mat-label>
+                    <input matInput name="prof_title" formControlName="prof_title"  type="text">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Professor name</mat-label>
+                    <input matInput name="prof_name" formControlName="prof_name"  type="text">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Professor surname</mat-label>
+                    <input matInput name="prof_surname" formControlName="prof_surname"  type="text">
+                </mat-form-field>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        
+        <!-- <button mat-stroked-button color="primary">Add new professor</button> -->
 
         <button mat-stroked-button color="primary" type="submit">Add</button>
         <button mat-stroked-button color="primary" type="button" mat-dialog-close>Close</button>

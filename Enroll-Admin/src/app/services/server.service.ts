@@ -279,7 +279,8 @@ export class ServerService {
     return <Professor>{
       id: professor.professor_id,
       name: professor.name,
-      surname: professor.surname
+      surname: professor.surname,
+      title: professor.title
     }
   }
 

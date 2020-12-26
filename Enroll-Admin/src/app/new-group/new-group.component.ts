@@ -17,6 +17,7 @@ export class NewGroupComponent implements OnInit {
   // @Input() class_id: number;
   // @Output() hideGroupEvent = new EventEmitter<boolean>();
   professors: Professor[] = [];
+  profpanelOpenState: boolean = false;
 
   // profsEmitter = new BehaviorSubject<Professor[]>(this.professors); 
 
