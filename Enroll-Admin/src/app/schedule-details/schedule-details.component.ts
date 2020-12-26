@@ -105,8 +105,8 @@ export class ScheduleDetailsComponent implements OnInit {
     this.startEnroll = !this.startEnroll;
   }
 
-  checkEnrollment(){
-    return this.data.schedule.status=="ENROLLMENT";
+  checkStartEnrollment(){
+    return this.data.schedule.status!="CREATED";
   }
 
 }
