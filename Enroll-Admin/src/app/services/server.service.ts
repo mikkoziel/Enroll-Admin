@@ -141,7 +141,7 @@ export class ServerService {
     JSON.stringify(group),
     header).pipe(
       tap(x=> console.log(x)),
-      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      map(x=> this.parseStringToGroup(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addGroup'))
     )
 
@@ -171,7 +171,7 @@ export class ServerService {
     JSON.stringify(prof),
     header).pipe(
       tap(x=> console.log(x)),
-      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      map(x=> this.parseStringToProfessor(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addUsProfessor'))
     )
   }
@@ -180,14 +180,38 @@ export class ServerService {
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
     })};
-    return this.http.post(this.httpAddress + "/schedules/" + schedule_id,
+    return this.http.delete(this.httpAddress + "/schedules/" + schedule_id,
     header).pipe(
       tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
-      catchError(this.handleError('addGroup'))
+      catchError(this.handleError('deleteSchedule'))
     )
-
   }
+
+  deleteClass(class_id:number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+    })};
+    return this.http.delete(this.httpAddress + "/classes/" + class_id,
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('deleteClass'))
+    )
+  }
+
+  deleteGroup(group_id:number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+    })};
+    return this.http.delete(this.httpAddress + "/groups/" + group_id,
+    header).pipe(
+      tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('deleteGroup'))
+    )
+  }
+
 
   // --UPDATE------------------------------------------------------
   updateSchedule(id:number, schedule: Schedule){
@@ -200,7 +224,7 @@ export class ServerService {
     JSON.stringify(schedule),
     header).pipe(
       tap(x=> console.log(x)),
-      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      map(x=> this.parseDelete(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addSchedule'))
     )
   }
@@ -248,20 +272,29 @@ export class ServerService {
       semester: schedule.semester,
       description: schedule.description,
       classes: Array.from(schedule.classes, (cl: any) => 
-        <Class>{
-          id: cl.classId,
-          name: cl.name,
-          groups: Array.from(cl.groups, (group: any) =>
-            <Group>{
-              id: group.groupId,
-              day: group.day,
-              start: group.start,
-              end: group.end,
-              professor_id: group.professor_id
-            }
-          )   
-      })
+        this.parseStringToClass(cl))
     };
+  }
+
+  parseStringToClass(cl:any){
+    return <Class>{
+      id: cl.classId,
+      name: cl.name,
+      groups: Array.from(cl.groups, (group: any) =>
+        this.parseStringToGroup(group)
+      ) 
+    }
+  }
+
+  parseStringToGroup(group: any){
+    return <Group>{
+      id: group.groupId,
+      day: group.day,
+      start: group.start,
+      end: group.end,
+      professor_id: group.professor_id,
+      type: group.type
+    }
   }
 
   parseStringToProfessors(profs: any){
@@ -311,6 +344,10 @@ export class ServerService {
     data["profs"] = this.parseStringToProfessors({ "professors": comb.professors})
     data["users"] = this.parseStringToUsers({"users": comb.users})
     return data;
+  }
+
+  parseDelete(a: any){
+    return a.deleted;
   }
 
 }

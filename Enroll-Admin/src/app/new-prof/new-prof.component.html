@@ -1,0 +1,28 @@
+<div>
+    <h2 mat-dialog-title>Add new professor!</h2>
+    
+    <form [formGroup]="modelForm" (ngSubmit)="onSubmit()" class="flex-column">
+        <mat-dialog-content>
+            <mat-form-field appearance="fill">
+                <mat-label>Professor title</mat-label>
+                <input matInput name="prof_title" formControlName="prof_title"  type="text">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Professor name</mat-label>
+                <input matInput name="prof_name" formControlName="prof_name"  type="text">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Professor surname</mat-label>
+                <input matInput name="prof_surname" formControlName="prof_surname"  type="text">
+            </mat-form-field>
+            
+            <button mat-stroked-button color="primary" type="submit">Add</button>
+            <button mat-stroked-button color="primary" type="button" mat-dialog-close>Close</button>
+            <div *ngIf="errors.length != 0">
+                <p *ngFor='let error_text of errors'>
+                    {{error_text}}
+                </p>
+            </div>
+        </mat-dialog-content>
+    </form>
+</div>

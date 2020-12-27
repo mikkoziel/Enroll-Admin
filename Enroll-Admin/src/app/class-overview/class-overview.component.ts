@@ -7,6 +7,7 @@ import { Professor } from '../interfaces/professor';
 import { BehaviorSubject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { NewGroupComponent } from '../new-group/new-group.component';
+import { ServerService } from '../services/server.service';
 
 
 @Component({
@@ -16,11 +17,12 @@ import { NewGroupComponent } from '../new-group/new-group.component';
 })
 export class ClassOverviewComponent implements OnInit {
   @Input() data: any;
-  
+
   profs_subject: BehaviorSubject<Professor>[];
 
   constructor(
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private serverService: ServerService) { }
 
   ngOnInit(): void {
   }
@@ -32,8 +34,16 @@ export class ClassOverviewComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
   }
 
-  deleteGroup(id: any){
-
+  deleteGroup(cl:Class, group_id: any){
+    this.serverService.deleteGroup(group_id).subscribe(x=>{
+      console.log(x)
+      if(x>0){
+        // cl.groups.splice()
+        // this.data.schedule.classes.find((x: Class)=> x.id == cl.id).groups.filter(a=> {
+        //   a.id !== group_id;
+        // });
+      }
+    })
   }
 
   addGroup(id: number){ 
@@ -44,12 +54,12 @@ export class ClassOverviewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      // this.data.users = result.users;
+      this.data.schedule.classes.find((x: Class)=> x.id == id).groups.push(result);
     });
   }
 
   getProfessor(index: number){
     let prof = this.data.profs.filter(i=> i.id == index)[0];
-    return prof?.surname + " " + prof?.name;
+    return prof?.title + " " + prof?.surname + " " + prof?.name;
   }
 }

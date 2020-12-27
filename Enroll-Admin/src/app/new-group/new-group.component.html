@@ -24,20 +24,30 @@
             <label class="label">End:</label> 
             <ngb-timepicker name="end" formControlName="end"></ngb-timepicker>
         </div>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+                <mat-option value="LECTURE">LECTURE</mat-option>
+                <mat-option value="LABORATORY">LABORATORY</mat-option>
+            </mat-select>
+        </mat-form-field>
         
         <mat-form-field appearance="fill">
             <mat-label>Choose existing Professor</mat-label>
-            <mat-select formControlName="professor_id">
+            <mat-select formControlName="professor_id" [compareWith]="compareCategoryObjects">
                 <mat-option *ngFor="let professor of professors" [value]="professor.id">
-                    {{professor.surname}} {{professor.name}} 
+                    {{professor.title}} {{professor.surname}} {{professor.name}} 
                 </mat-option>
             </mat-select>
         </mat-form-field>
         <div>
             <p>or</p>
         </div>
+        <button mat-stroked-button color="primary" type="button" (click)="addProf()">Add new professor</button>
+
         
-        <mat-accordion class="flex-child">
+        <!-- <mat-accordion formGroupName="new_prof" class="flex-child">
             <mat-expansion-panel (opened)="profpanelOpenState"
                                 (closed)="profpanelOpenState">
                 <mat-expansion-panel-header>
@@ -58,7 +68,7 @@
                     <input matInput name="prof_surname" formControlName="prof_surname"  type="text">
                 </mat-form-field>
             </mat-expansion-panel>
-        </mat-accordion>
+        </mat-accordion> -->
 
         
         <!-- <button mat-stroked-button color="primary">Add new professor</button> -->

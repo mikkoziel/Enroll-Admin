@@ -31,6 +31,7 @@ import { ClassOverviewComponent } from './class-overview/class-overview.componen
 import { StartEnrollComponent } from './start-enroll/start-enroll.component';
 import { DatePipe } from '@angular/common';
 import { AddUserComponent } from './add-user/add-user.component';
+import { NewProfComponent } from './new-prof/new-prof.component';
 
 const components = [
   AppComponent,
@@ -63,7 +64,8 @@ const material = [
   declarations: [
     components,
     StartEnrollComponent,
-    AddUserComponent
+    AddUserComponent,
+    NewProfComponent
   ],
   imports: [
     BrowserModule,

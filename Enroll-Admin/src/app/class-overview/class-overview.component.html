@@ -6,7 +6,8 @@
         <li *ngFor="let group of class.groups">
             {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} 
             Professor: {{getProfessor(group.professor_id)}}
-            <button mat-stroked-button color="primary" (click)="deleteGroup(group.id)">Delete Group</button>
+            Type: {{group.type}}
+            <button mat-stroked-button color="primary" (click)="deleteGroup(class, group.id)">Delete Group</button>
         </li>    
         <button mat-stroked-button color="primary" (click)="addGroup(class.id)">Add Group</button>
         <mat-divider></mat-divider>

@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Group } from '../interfaces/group';
 import { Professor } from '../interfaces/professor';
+import { NewProfComponent } from '../new-prof/new-prof.component';
 import { ServerService } from '../services/server.service';
 
 @Component({
@@ -21,6 +21,8 @@ export class NewGroupComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {class_id: number},
     private formBuilder : FormBuilder,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<NewGroupComponent>,
     private serverService: ServerService) { }
 
   ngOnInit(): void {
@@ -32,7 +34,8 @@ export class NewGroupComponent implements OnInit {
       day: ['', Validators.required],
       start: ['', Validators.required],
       end: ['', Validators.required],
-      professor_id: ['', Validators.required],
+      type: ['', Validators.required],
+      professor_id: ['', Validators.required]
     })
   }
 
@@ -40,16 +43,19 @@ export class NewGroupComponent implements OnInit {
     this.errors = [];
 
     if(this.modelForm.valid && this.modelForm.touched){
-      let id_ob = this.serverService.addGroup(1, 
-              <Group>{
-                day: this.modelForm.value.day,
-                start: this.modelForm.value.start,
-                end: this.modelForm.value.end,
-                professor_id: this.modelForm.value.description,
-                class_id: this.data.class_id
-              }
-            )
-      id_ob.subscribe(x=>console.log(x))
+      let new_group = <Group>{
+        day: this.modelForm.value.day,
+        start: this.modelForm.value.start,
+        end: this.modelForm.value.end,
+        professor_id: this.modelForm.value.professor_id,
+        class_id: this.data.class_id,
+        type: this.modelForm.value.type
+      }
+        this.serverService.addGroup(1, new_group).subscribe(x=>{
+          console.log(x)
+          this.dialogRef.close(x);
+        })
+
     }else{
       this.getFormValidationErrors();
       if(this.errors.length == 0){
@@ -70,5 +76,19 @@ export class NewGroupComponent implements OnInit {
       });
   }
 
+  addProf(){
+    const dialogRef = this.dialog.open(NewProfComponent, {
+      data: {}
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.professors.push(result);
+      this.modelForm.controls['professor_id'].setValue(result.id);
+    });
+  }
+
+  compareCategoryObjects(object1: any, object2: any) {
+    return object1 && object2 && object1 == object2;
+  }
 }
