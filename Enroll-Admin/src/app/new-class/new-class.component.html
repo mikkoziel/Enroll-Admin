@@ -1,5 +1,6 @@
 <div>
-    <h2 mat-dialog-title>Add new class!</h2>
+    <h3 *ngIf="data.cl==null" mat-dialog-title>Add new class!</h3>
+    <h3 *ngIf="data.cl!=null" mat-dialog-title>Modify class!</h3>
     
     <mat-dialog-content>
         <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)">
@@ -8,8 +9,14 @@
                 <input matInput name="name" formControlName="name"  type="text">
             </mat-form-field>
             
-            <button mat-stroked-button color="primary" type="submit">Submit</button>
-            <button mat-stroked-button color="primary" type="button" mat-dialog-close>Close</button>
+            <mat-form-field appearance="fill">
+                <mat-label>Full name:</mat-label>
+                <input matInput name="full_name" formControlName="full_name"  type="text">
+            </mat-form-field>
+
+            <button *ngIf="data.cl==null" mat-stroked-button color="primary" type="submit">Add</button>
+            <button *ngIf="data.cl!=null" mat-stroked-button color="primary" type="submit">Modify</button>
+            <button mat-stroked-button color="primary" type="button" [mat-dialog-close]="null">Close</button>
 
             <div *ngIf="errors.length != 0">
                 <p *ngFor='let error_text of errors'>

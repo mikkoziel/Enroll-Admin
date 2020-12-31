@@ -10,11 +10,11 @@
             </mat-expansion-panel-header>
 
             <mat-divider></mat-divider>
-            <app-schedule-overview></app-schedule-overview>
+            <app-schedule-overview [schedules]="schedules"></app-schedule-overview>
         </mat-expansion-panel>
     </mat-accordion>
 
     <!-- <mat-divider></mat-divider> -->
     <br/>
-    <button  mat-stroked-button color="primary" [routerLink]="'/new-schedule'">Add new schedule</button>
+    <button  mat-stroked-button color="primary" (click)="addSchedule()">Add new schedule</button>
 </div>

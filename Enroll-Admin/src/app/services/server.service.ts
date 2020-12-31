@@ -113,7 +113,7 @@ export class ServerService {
     JSON.stringify(schedule),
     header).pipe(
       tap(x=> console.log(x)),
-      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addSchedule'))
     )
   }
@@ -144,7 +144,6 @@ export class ServerService {
       map(x=> this.parseStringToGroup(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addGroup'))
     )
-
   }
 
   addUserToSchedule(us: UserSchedule){
@@ -244,6 +243,34 @@ export class ServerService {
     )
   }
 
+  updateClass(schedule_id:number, cl: Class){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '0'
+    })};
+    return this.http.put(this.httpAddress + "/classes/" + schedule_id,
+    JSON.stringify(cl),
+    header).pipe(
+      tap(x=> console.log(x)),
+      map(x=> this.parseStringToClass(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('updateClass'))
+    )
+  }
+
+  updateGroup(class_id:number, group: Group){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '0'
+    })};
+    return this.http.put(this.httpAddress + "/groups/" + class_id,
+    JSON.stringify(group),
+    header).pipe(
+      tap(x=> console.log(x)),
+      map(x=> this.parseStringToGroup(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('updateGroup'))
+    )
+  }
+
   // --ERROR-----------------------------------------------------
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -280,6 +307,7 @@ export class ServerService {
     return <Class>{
       id: cl.classId,
       name: cl.name,
+      full_name: cl.full_name,
       groups: Array.from(cl.groups, (group: any) =>
         this.parseStringToGroup(group)
       ) 

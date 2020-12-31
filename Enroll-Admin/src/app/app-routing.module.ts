@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/admin', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminPanelComponent },
-  { path: 'new-schedule', component: NewScheduleComponent },
+  // { path: 'new-schedule', component: NewScheduleComponent },
   { path: 'schedule-details/:id', component: ScheduleDetailsComponent },
 ];
 

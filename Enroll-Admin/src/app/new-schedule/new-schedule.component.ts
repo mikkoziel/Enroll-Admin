@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl, FormControl } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Schedule } from '../interfaces/schedule';
 import { ScheduleService } from '../services/schedule.service';
 import { ServerService } from '../services/server.service';
@@ -14,8 +15,10 @@ export class NewScheduleComponent implements OnInit {
   errors = [];
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: {schedule: Schedule},
     private formBuilder : FormBuilder,
-    private scheduleService: ScheduleService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef<NewScheduleComponent>,
     private serverService: ServerService) { 
 
   }
@@ -26,28 +29,48 @@ export class NewScheduleComponent implements OnInit {
       semester: ['', Validators.required],
       description: ['', Validators.required],
     })
+
+    if(this.data.schedule != null){
+      this.modelForm.setValue({
+        name: this.data.schedule.name,
+        semester: this.data.schedule.semester,
+        description: this.data.schedule.description
+      })
+    }
   }
 
   onSubmit(modelForm: FormGroup){
     this.errors = [];
 
     if(modelForm.valid && modelForm.touched){
-      let id_ob = this.serverService.addSchedule(1, 
-              <Schedule>{
-                name: modelForm.value.name,
-                status: "CREATED",
-                semester: modelForm.value.semester,
-                description: modelForm.value.description,
-                classes: []
-              }
-            )
-        id_ob.subscribe(x=>console.log(x))
+      let new_schedule = <Schedule>{
+        name: modelForm.value.name,
+        status: "CREATED",
+        semester: modelForm.value.semester,
+        description: modelForm.value.description,
+        classes: []
+      }
+      if(this.data.schedule != null){
+        this.onSubmitModify(new_schedule)
+      } else {
+        this.onSubmitAdd(new_schedule)
+      }
     }else{
       this.getFormValidationErrors();
       if(this.errors.length == 0){
         this.errors.push("Fill all fields");
       }
     }
+  }
+  
+  onSubmitAdd(new_schedule: any){
+    this.serverService.addSchedule(1, new_schedule).subscribe(x=>{
+      console.log(x)
+      this.dialogRef.close(x);
+    })
+  }
+  
+  onSubmitModify(new_schedule: any){
   }
 
   getFormValidationErrors() {

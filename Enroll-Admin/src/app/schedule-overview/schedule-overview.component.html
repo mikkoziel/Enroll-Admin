@@ -1,5 +1,5 @@
 <div class="flex-column">
-    <div *ngFor="let schedule of(schedulesEmitter | async)"
+    <div *ngFor="let schedule of schedules"
         class="schedule-box">
         <p>Schedule id: {{ schedule.id }}</p>
         <p>Schedule name: {{ schedule.name }}</p>

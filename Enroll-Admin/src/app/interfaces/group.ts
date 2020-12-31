@@ -1,10 +1,10 @@
-import { Time, WeekDay } from '@angular/common';
+import { Time } from '@angular/common';
 
 export interface Group{
     id?: number,
     day: number,
-    start: Time,
-    end: Time,
+    start: String,
+    end: String,
     professor_id?: number
     class_id?: number
     type: String

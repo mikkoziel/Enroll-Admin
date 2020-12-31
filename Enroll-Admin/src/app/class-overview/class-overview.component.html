@@ -1,15 +1,22 @@
-<div *ngIf="data != undefined" class="flex-column">
-    <div *ngFor="let class of (data.schedule.classes); index as i"
-        class="schedule-box">
-        <p>{{ class.name }}</p>
+<div *ngIf="data != undefined">
+    <div *ngFor="let class of (data.schedule.classes); class_index as i"
+        class="schedule-box flex-column">
+        <p>{{ class.full_name }}: {{ class.name }}</p>
         <p>Groups:</p>
         <li *ngFor="let group of class.groups">
             {{getWeekDay(group.day)}} {{group.start}}-{{group.end}} 
             Professor: {{getProfessor(group.professor_id)}}
             Type: {{group.type}}
+            <button mat-stroked-button color="primary" (click)="modifyGroup(class, group)">Modify Group</button>
             <button mat-stroked-button color="primary" (click)="deleteGroup(class, group.id)">Delete Group</button>
         </li>    
-        <button mat-stroked-button color="primary" (click)="addGroup(class.id)">Add Group</button>
+        <div>
+            <button mat-stroked-button color="primary" (click)="addGroup(class.id)">Add Group</button>
+        </div>
+        <div>
+            <button mat-stroked-button color="primary" (click)="modifyClass(class)">Modify Class</button>
+            <button mat-stroked-button color="primary" (click)="deleteClass(class.id)">Delete Class</button>
+        </div>
         <mat-divider></mat-divider>
     </div>
 </div>

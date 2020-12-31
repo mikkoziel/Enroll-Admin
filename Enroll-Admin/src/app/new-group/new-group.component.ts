@@ -19,7 +19,7 @@ export class NewGroupComponent implements OnInit {
   profpanelOpenState: boolean = false;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {class_id: number},
+    @Inject(MAT_DIALOG_DATA) public data: {class_id: number, group: Group},
     private formBuilder : FormBuilder,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<NewGroupComponent>,
@@ -32,11 +32,26 @@ export class NewGroupComponent implements OnInit {
 
     this.modelForm = this.formBuilder.group({
       day: ['', Validators.required],
-      start: ['', Validators.required],
+      start: [null, Validators.required],
       end: ['', Validators.required],
       type: ['', Validators.required],
       professor_id: ['', Validators.required]
     })
+
+    if(this.data.group != null){
+      let start_hour: number = +this.data.group.start.split(":")[0]
+      let start_min: number = +this.data.group.start.split(":")[1]
+      let end_hour: number = +this.data.group.end.split(":")[0]
+      let end_min: number = +this.data.group.end.split(":")[1]
+
+      this.modelForm.setValue({
+        day: this.data.group.day,
+        start: { hour: start_hour, minute: start_min },
+        end: { hour: end_hour, minute: end_min },
+        type: this.data.group.type,
+        professor_id: this.data.group.professor_id,
+      })
+    }
   }
 
   onSubmit(){
@@ -51,10 +66,11 @@ export class NewGroupComponent implements OnInit {
         class_id: this.data.class_id,
         type: this.modelForm.value.type
       }
-        this.serverService.addGroup(1, new_group).subscribe(x=>{
-          console.log(x)
-          this.dialogRef.close(x);
-        })
+      if(this.data.group != null){
+        this.onSubmitModify(new_group)
+      } else {
+        this.onSubmitAdd(new_group)
+      }
 
     }else{
       this.getFormValidationErrors();
@@ -62,6 +78,21 @@ export class NewGroupComponent implements OnInit {
         this.errors.push("Fill all fields");
       }
     }
+  }
+
+  onSubmitAdd(new_group: any){
+    this.serverService.addGroup(1, new_group).subscribe(x=>{
+      console.log(x)
+      this.dialogRef.close(x);
+    })
+  }
+
+  onSubmitModify(new_group: any){
+    new_group.id = this.data.group.id
+    this.serverService.updateGroup(this.data.class_id, new_group).subscribe(x=>{
+      console.log(x)
+      this.dialogRef.close(x);
+    })
   }
 
   getFormValidationErrors() {
@@ -83,8 +114,10 @@ export class NewGroupComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.professors.push(result);
-      this.modelForm.controls['professor_id'].setValue(result.id);
+      if(result!=null){
+          this.professors.push(result);
+          this.modelForm.controls['professor_id'].setValue(result.id);
+      }
     });
   }
 

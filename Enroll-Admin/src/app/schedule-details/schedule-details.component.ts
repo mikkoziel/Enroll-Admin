@@ -63,12 +63,15 @@ export class ScheduleDetailsComponent implements OnInit {
   addClass(){
     const dialogRef = this.dialog.open(NewClassComponent, {
       width: '400px',
-      data: {schedule_id: this.id}
+      data: {schedule_id: this.id, cl: null}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      // this.data.users = result.users;
+      if(result!=null){
+        console.log(result)
+        this.data.schedule.classes.push(result)
+      }
     });
   }
 
