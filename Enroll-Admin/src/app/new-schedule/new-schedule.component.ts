@@ -71,6 +71,10 @@ export class NewScheduleComponent implements OnInit {
   }
   
   onSubmitModify(new_schedule: any){
+    this.serverService.updateSchedule(1, new_schedule).subscribe(x=>{
+      console.log(x)
+      this.dialogRef.close(x);
+    })
   }
 
   getFormValidationErrors() {

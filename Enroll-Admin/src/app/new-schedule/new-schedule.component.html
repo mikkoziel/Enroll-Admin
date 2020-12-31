@@ -1,5 +1,6 @@
 <div class="flex-column">
-    <h3 mat-dialog-title>Add new schedule!</h3>
+    <h3 *ngIf="data.schedule==null" mat-dialog-title>Add new schedule!</h3>
+    <h3 *ngIf="data.schedule!=null" mat-dialog-title>Modify schedule!</h3>
     <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="flex-column">
         <div class="flex-row div-margin">
             <div class="label"><label>Name:</label></div>
@@ -15,7 +16,8 @@
         </div>
         
         <div class="div-margin">
-            <button mat-stroked-button color="primary" type="submit">Add</button>
+            <button *ngIf="data.schedule==null" mat-stroked-button color="primary" type="submit">Add</button>
+            <button *ngIf="data.schedule!=null" mat-stroked-button color="primary" type="submit">Modify</button>
             <button mat-stroked-button color="primary" type="button" [mat-dialog-close]="null">Close</button>
         </div>
         <div *ngIf="errors.length != 0">

@@ -13,6 +13,7 @@ import { StartEnrollComponent } from '../start-enroll/start-enroll.component';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { NewGroupComponent } from '../new-group/new-group.component';
 import { NewClassComponent } from '../new-class/new-class.component';
+import { NewScheduleComponent } from '../new-schedule/new-schedule.component';
 
 @Component({
   selector: 'app-schedule-details',
@@ -53,11 +54,22 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   deleteSchedule(){
-    this.serverService.deleteSchedule(this.data.id)
+    this.serverService.deleteSchedule(this.data.id).subscribe(result=>{
+      console.log(result)
+    })
   }
 
   updateSchedule(){
+    const dialogRef = this.dialog.open(NewScheduleComponent, {
+      data: { schedule: this.data.schedule }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if(result!=null){
+        // this.schedules.push(result);
+       }
+    });  
   }
 
   addClass(){
