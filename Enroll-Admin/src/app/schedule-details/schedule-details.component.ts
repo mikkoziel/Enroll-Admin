@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import {MatDialog} from '@angular/material/dialog';
 
 import { Professor } from '../interfaces/professor';
 import { User } from '../interfaces/user';
-import { UserSchedule } from '../interfaces/user-schedule';
-import { ScheduleService } from '../services/schedule.service';
 import { ServerService } from '../services/server.service';
 import { StartEnrollComponent } from '../start-enroll/start-enroll.component';
 import { AddUserComponent } from '../add-user/add-user.component';
-import { NewGroupComponent } from '../new-group/new-group.component';
 import { NewClassComponent } from '../new-class/new-class.component';
 import { NewScheduleComponent } from '../new-schedule/new-schedule.component';
 
@@ -24,6 +21,7 @@ export class ScheduleDetailsComponent implements OnInit {
   classpanelOpenState: boolean = false;
   userpanelOpenState: boolean = false;
   addUserPanelOpenState: boolean = false;
+
   id: number;
   sub: Subscription;  
 
@@ -39,6 +37,7 @@ export class ScheduleDetailsComponent implements OnInit {
 
   constructor(private _Activatedroute:ActivatedRoute,
     public dialog: MatDialog,
+    private router: Router,
     private serverService: ServerService) { 
       this.minDate = new Date();
   }
@@ -54,8 +53,10 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   deleteSchedule(){
-    this.serverService.deleteSchedule(this.data.id).subscribe(result=>{
+    this.serverService.deleteSchedule(this.id).subscribe(result=>{
       console.log(result)
+      this.router.navigateByUrl('/admin');
+      // this.deleteSEvent.emit(this.data.id)
     })
   }
 
@@ -67,6 +68,8 @@ export class ScheduleDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if(result!=null){
+        console.log(result)
+        this.data.schedule = result
         // this.schedules.push(result);
        }
     });  
@@ -101,7 +104,9 @@ export class ScheduleDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.data.users = result.users;
+      if(result != null){
+        this.data.users = result.users;
+      }
     });
   }
 
@@ -112,7 +117,9 @@ export class ScheduleDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.data.schedule = result.schedule;
+      if(result != null){
+        this.data.schedule = result.schedule;
+      }
     });
   }
 

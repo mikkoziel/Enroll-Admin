@@ -223,7 +223,8 @@ export class ServerService {
     JSON.stringify(schedule),
     header).pipe(
       tap(x=> console.log(x)),
-      map(x=> this.parseDelete(JSON.parse(JSON.stringify(x)))),
+      map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
+      // map(x=> this.parseDelete(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addSchedule'))
     )
   }
