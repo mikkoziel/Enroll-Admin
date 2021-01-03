@@ -34,6 +34,7 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { NewProfComponent } from './new-prof/new-prof.component';
 import { FieldOverviewComponent } from './field-overview/field-overview.component';
 import { FieldDetailsComponent } from './field-details/field-details.component';
+import { NewFieldComponent } from './new-field/new-field.component';
 
 const components = [
   AppComponent,
@@ -70,6 +71,7 @@ const material = [
   declarations: [
     components,
     FieldDetailsComponent,
+    NewFieldComponent,
   ],
   imports: [
     BrowserModule,

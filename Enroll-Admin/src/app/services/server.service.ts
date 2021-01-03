@@ -214,6 +214,20 @@ export class ServerService {
       catchError(this.handleError('addUsProfessor'))
     )
   }
+
+  addFoS(user_id: number, fos: Field){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': user_id.toString()
+    })};
+    return this.http.post(this.httpAddress + "/fos",
+    JSON.stringify(fos),
+    header).pipe(
+      // tap(x=> console.log(x)),
+      map(x=> this.parseStringToField(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addFoS'))
+    )
+  }
   // --DELETE------------------------------------------------------
   deleteSchedule(schedule_id:number){
     const header = { headers: new HttpHeaders({
@@ -250,7 +264,6 @@ export class ServerService {
       catchError(this.handleError('deleteGroup'))
     )
   }
-
 
   // --UPDATE------------------------------------------------------
   updateSchedule(id:number, schedule: Schedule){
@@ -309,6 +322,20 @@ export class ServerService {
       // tap(x=> console.log(x)),
       map(x=> this.parseStringToGroup(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('updateGroup'))
+    )
+  }
+
+  updateFoS(user_id:number, fos: Field){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': user_id.toString()
+    })};
+    return this.http.put(this.httpAddress + "/fos",
+    JSON.stringify(fos),
+    header).pipe(
+      // tap(x=> console.log(x)),
+      map(x=> this.parseStringToField(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('updateFoS'))
     )
   }
 

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Field } from '../interfaces/field';
 import { Schedule } from '../interfaces/schedule';
 import { User } from '../interfaces/user';
+import { NewFieldComponent } from '../new-field/new-field.component';
 import { NewScheduleComponent } from '../new-schedule/new-schedule.component';
 import { ServerService } from '../services/server.service';
 
@@ -54,7 +55,16 @@ export class AdminPanelComponent implements OnInit {
   }
 
   addNewFieldOfStudy(){
+    const dialogRef = this.dialog.open(NewFieldComponent, {
+      data: { field: null }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if(result!=null){
+        this.fields.push(result);
+       }
+    });    
   }
 
 }
