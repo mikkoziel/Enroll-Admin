@@ -32,6 +32,8 @@ import { StartEnrollComponent } from './start-enroll/start-enroll.component';
 import { DatePipe } from '@angular/common';
 import { AddUserComponent } from './add-user/add-user.component';
 import { NewProfComponent } from './new-prof/new-prof.component';
+import { FieldOverviewComponent } from './field-overview/field-overview.component';
+import { FieldDetailsComponent } from './field-details/field-details.component';
 
 const components = [
   AppComponent,
@@ -44,6 +46,10 @@ const components = [
   NewClassComponent,
   NewGroupComponent,
   ClassOverviewComponent,
+  StartEnrollComponent,
+  AddUserComponent,
+  NewProfComponent,
+  FieldOverviewComponent,
 ];
 
 const material = [
@@ -63,9 +69,7 @@ const material = [
 @NgModule({
   declarations: [
     components,
-    StartEnrollComponent,
-    AddUserComponent,
-    NewProfComponent
+    FieldDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,6 +87,7 @@ const material = [
     ScheduleDetailsComponent,
     NewClassComponent,
     NewGroupComponent,
+    NewScheduleComponent,
   ],
   providers: [DatePipe, 
     MatDatepickerModule,

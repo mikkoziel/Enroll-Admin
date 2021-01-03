@@ -9,6 +9,7 @@ import { Professor } from '../interfaces/professor';
 import { UserSchedule } from '../interfaces/user-schedule';
 import { User } from '../interfaces/user';
 import { Enrollment } from '../interfaces/enrollment';
+import { Field } from '../interfaces/field';
 
 const httpOptions = { headers: new HttpHeaders({ 
   'Content-Type' : 'application/json',
@@ -25,10 +26,10 @@ export class ServerService {
   }
 
   // --GET------------------------------------------------------
-  getSchedules() {
+  getSchedules(user_id: number) {
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
-      'id': '1'
+      'id': user_id.toString()
     })};
     return this.http.get(this.httpAddress + "/schedules",
       header).pipe(
@@ -100,6 +101,32 @@ export class ServerService {
         // tap(x=> console.log(x)),
         map((x)=> this.parseStringToCombine(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getUPForUser'))
+    )
+  }
+
+  getFields(user_id: number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': user_id.toString()
+    })};
+    return this.http.get(this.httpAddress + "/fields",
+      header).pipe(
+        tap(x=> console.log(x)),
+        map((x)=> this.parseStringToFields(JSON.parse(JSON.stringify(x)))),
+        catchError(this.handleError('getFields'))
+    )
+  }
+
+  getFieldsSchedules(user_id: number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': user_id.toString()
+    })};
+    return this.http.get(this.httpAddress + "/fields-schedules",
+      header).pipe(
+        tap(x=> console.log(x)),
+        map((x)=> this.parseStringToFieldsSchedules(JSON.parse(JSON.stringify(x)))),
+        catchError(this.handleError('getFieldsSchedules'))
     )
   }
   // --ADD------------------------------------------------------
@@ -379,4 +406,27 @@ export class ServerService {
     return a.deleted;
   }
 
+  parseStringToFields(fields: any){
+    let ret: Field[] = [];
+    fields.fields.forEach((field: any)=>{
+      ret.push(this.parseStringToField(field));
+    });
+    return ret;
+  }
+
+  parseStringToField(field: any){
+    return <Field>{
+      field_id: field.field_id,
+      name: field.name,
+      short_name: field.short_name,
+      start_year: field.start_year
+    }
+  }
+
+  parseStringToFieldsSchedules(fs_json: any){
+    let data = {};
+    data["schedules"] = this.parseStringToSchedules(fs_json.schedules);
+    data["fields"] = this.parseStringToFields(fs_json.fields);
+    return data;
+  }
 }

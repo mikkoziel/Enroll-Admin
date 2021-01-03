@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Field } from '../interfaces/field';
 import { Schedule } from '../interfaces/schedule';
+import { User } from '../interfaces/user';
 import { NewScheduleComponent } from '../new-schedule/new-schedule.component';
 import { ServerService } from '../services/server.service';
 
@@ -10,14 +12,29 @@ import { ServerService } from '../services/server.service';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
-  panelOpenState: boolean = false;
+  panelOpenState: boolean = true;
+  fieldOpenState: boolean = false;
+
   schedules: Schedule[] = null;
+  fields: Field[] = null;
+
+  currentUser: User;
 
   constructor(private serverService: ServerService,
     public dialog: MatDialog,) {
-    this.serverService.getSchedules().subscribe((x: Schedule[])=> {
-      this.schedules = x; 
-    });  
+    
+    this.currentUser = <User>{id: 1}
+    // this.serverService.getSchedules(this.currentUser.id).subscribe((x: Schedule[])=> {
+    //   this.schedules = x; 
+    // });  
+    // this.serverService.getFields(this.currentUser.id).subscribe((x: Field[])=>{
+    //   this.fields = x;
+    // });
+        
+    this.serverService.getFieldsSchedules(this.currentUser.id).subscribe((x: any)=>{
+      this.schedules = x.schedules;
+      this.fields = x.fields;
+    });
   }
 
   ngOnInit(): void {
@@ -34,6 +51,10 @@ export class AdminPanelComponent implements OnInit {
         this.schedules.push(result);
        }
     });    
+  }
+
+  addNewFieldOfStudy(){
+
   }
 
 }

@@ -14,7 +14,31 @@
         </mat-expansion-panel>
     </mat-accordion>
 
-    <!-- <mat-divider></mat-divider> -->
     <br/>
     <button  mat-stroked-button color="primary" (click)="addSchedule()">Add new schedule</button>
+
+    <br/>
+    <mat-divider></mat-divider>
+    <br/>
+
+    <mat-accordion>
+        <mat-expansion-panel (opened)="fieldOpenState"
+                             (closed)="fieldOpenState">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Field of Study Overview
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-divider></mat-divider>
+            <app-field-overview [fields]="fields"></app-field-overview>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <br/>
+    <button  mat-stroked-button color="primary" (click)="addNewFieldOfStudy()">Add new field of study</button>
+    
+    <br/>
+    <mat-divider></mat-divider>
+    <br/>
 </div>

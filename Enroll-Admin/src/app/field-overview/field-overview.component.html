@@ -1,0 +1,10 @@
+<div class="flex-column">
+    <div *ngFor="let field of fields"
+        class="schedule-box">
+        <p>Field id: {{ field.field_id }}</p>
+        <p>Field name: {{ field.name }}</p>
+        <p>Field start_year: {{ field.start_year }}</p>
+        <button mat-stroked-button color="primary" [routerLink]="['/field-details', field.field_id]">More info</button>
+        <mat-divider></mat-divider>
+    </div>
+</div>
