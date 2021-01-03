@@ -111,7 +111,7 @@ export class ServerService {
     })};
     return this.http.get(this.httpAddress + "/fields",
       header).pipe(
-        tap(x=> console.log(x)),
+        // tap(x=> console.log(x)),
         map((x)=> this.parseStringToFields(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getFields'))
     )
@@ -124,7 +124,7 @@ export class ServerService {
     })};
     return this.http.get(this.httpAddress + "/fields-schedules",
       header).pipe(
-        tap(x=> console.log(x)),
+        // tap(x=> console.log(x)),
         map((x)=> this.parseStringToFieldsSchedules(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getFieldsSchedules'))
     )
@@ -137,7 +137,7 @@ export class ServerService {
     })};
     return this.http.get(this.httpAddress + "/field-details/" + field_id.toString(),
       header).pipe(
-        tap(x=> console.log(x)),
+        // tap(x=> console.log(x)),
         map((x)=> this.parseStringToFieldsDetails(JSON.parse(JSON.stringify(x)))),
         catchError(this.handleError('getFieldsSchedules'))
     )
@@ -152,7 +152,7 @@ export class ServerService {
     return this.http.post(this.httpAddress + "/schedules",
     JSON.stringify(schedule),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addSchedule'))
     )
@@ -166,7 +166,7 @@ export class ServerService {
     return this.http.post(this.httpAddress + "/schedules/" + class_.schedule_id,
     JSON.stringify(class_),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addClass'))
     )
@@ -180,7 +180,7 @@ export class ServerService {
     return this.http.post(this.httpAddress + "/classes/" + group.class_id,
     JSON.stringify(group),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       map(x=> this.parseStringToGroup(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addGroup'))
     )
@@ -194,7 +194,7 @@ export class ServerService {
     return this.http.post(this.httpAddress + "/user-sch",
     JSON.stringify(us),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
       map((x)=> this.parseStringToUsers(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addUserToSchedule'))
@@ -209,7 +209,7 @@ export class ServerService {
     return this.http.post(this.httpAddress + "/prof",
     JSON.stringify(prof),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       map(x=> this.parseStringToProfessor(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addUsProfessor'))
     )
@@ -221,7 +221,7 @@ export class ServerService {
     })};
     return this.http.delete(this.httpAddress + "/schedules/" + schedule_id,
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('deleteSchedule'))
     )
@@ -233,7 +233,7 @@ export class ServerService {
     })};
     return this.http.delete(this.httpAddress + "/classes/" + class_id,
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('deleteClass'))
     )
@@ -245,7 +245,7 @@ export class ServerService {
     })};
     return this.http.delete(this.httpAddress + "/groups/" + group_id,
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('deleteGroup'))
     )
@@ -262,7 +262,7 @@ export class ServerService {
     return this.http.put(this.httpAddress + "/schedules/" + schedule.id,
     JSON.stringify(schedule),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
       // map(x=> this.parseDelete(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addSchedule'))
@@ -278,7 +278,7 @@ export class ServerService {
     return this.http.put(this.httpAddress + "/enroll",
     JSON.stringify(enroll),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('addSchedule'))
     )
@@ -292,7 +292,7 @@ export class ServerService {
     return this.http.put(this.httpAddress + "/classes/" + schedule_id,
     JSON.stringify(cl),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       map(x=> this.parseStringToClass(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('updateClass'))
     )
@@ -306,7 +306,7 @@ export class ServerService {
     return this.http.put(this.httpAddress + "/groups/" + class_id,
     JSON.stringify(group),
     header).pipe(
-      tap(x=> console.log(x)),
+      // tap(x=> console.log(x)),
       map(x=> this.parseStringToGroup(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('updateGroup'))
     )
