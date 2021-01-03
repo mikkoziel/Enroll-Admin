@@ -129,6 +129,19 @@ export class ServerService {
         catchError(this.handleError('getFieldsSchedules'))
     )
   }
+
+  getFieldDetails(user_id: number, field_id: number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': user_id.toString()
+    })};
+    return this.http.get(this.httpAddress + "/field-details/" + field_id.toString(),
+      header).pipe(
+        tap(x=> console.log(x)),
+        map((x)=> this.parseStringToFieldsDetails(JSON.parse(JSON.stringify(x)))),
+        catchError(this.handleError('getFieldsSchedules'))
+    )
+  }
   // --ADD------------------------------------------------------
   addSchedule(id:number, schedule: Schedule){
     // console.log(JSON.stringify(schedule))
@@ -409,6 +422,7 @@ export class ServerService {
   parseStringToFields(fields: any){
     let ret: Field[] = [];
     fields.fields.forEach((field: any)=>{
+      console.log(field)
       ret.push(this.parseStringToField(field));
     });
     return ret;
@@ -419,14 +433,22 @@ export class ServerService {
       field_id: field.field_id,
       name: field.name,
       short_name: field.short_name,
-      start_year: field.start_year
+      start_year: field.start_year,
+      cycle: field.cycle
     }
   }
 
   parseStringToFieldsSchedules(fs_json: any){
     let data = {};
-    data["schedules"] = this.parseStringToSchedules(fs_json.schedules);
-    data["fields"] = this.parseStringToFields(fs_json.fields);
+    data["schedules"] = this.parseStringToSchedules({"schedules": fs_json.schedules});
+    data["fields"] = this.parseStringToFields({"fields": fs_json.fields});
+    return data;
+  }
+
+  parseStringToFieldsDetails(fd_json: any){
+    let data = {};
+    data["field"] = this.parseStringToField(fd_json.field);
+    data["users"] = this.parseStringToUsers({"users": fd_json.users});
     return data;
   }
 }

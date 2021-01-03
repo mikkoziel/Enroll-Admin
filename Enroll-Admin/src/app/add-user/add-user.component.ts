@@ -13,7 +13,7 @@ export class AddUserComponent implements OnInit {
   allUsers: User[];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {id: number, users: User[]},
+    @Inject(MAT_DIALOG_DATA) public data: {schedule_id: number, users: User[]},
     private serverService: ServerService) { }
 
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class AddUserComponent implements OnInit {
   addUser(user_id: number){
     let us = <UserSchedule>{
       user_id: user_id,
-      schedule_id: this.data.id,
+      schedule_id: this.data.schedule_id,
       type: false
     }
     this.serverService.addUserToSchedule(us).subscribe((x:User[])=>{

@@ -1,1 +1,30 @@
-<p>field-details works!</p>
+<div *ngIf="data != undefined" class="flex-column">
+    <div class="flex-child">
+        <p>Name: {{ data.field.name }}</p>
+        <p>Short name: {{ data.field.short_name }}</p>   
+        <p>Start Year: {{ data.field.start_year }}</p>  
+        <p>Cycle: {{ data.field.cycle }}</p> 
+    </div>
+    
+    <div class="flex-child">
+        <button mat-stroked-button color="primary" (click)="updateFoS()">Modify Field Of Study</button>
+        <button mat-stroked-button color="primary" (click)="deleteFoS()">Delete Field Of Study</button>
+    </div>
+    
+    <mat-accordion>
+        <mat-expansion-panel (opened)="usersOpenState"
+                             (closed)="usersOpenState">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Users
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-divider></mat-divider>
+            
+            <ul *ngFor="let user of data.users">
+                {{user.name}} {{user.surname}}
+            </ul>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
