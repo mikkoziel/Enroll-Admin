@@ -2,19 +2,31 @@
     <h3 *ngIf="data.schedule==null" mat-dialog-title>Add new schedule!</h3>
     <h3 *ngIf="data.schedule!=null" mat-dialog-title>Modify schedule!</h3>
     <form [formGroup]="modelForm" (ngSubmit)="onSubmit(modelForm)" class="flex-column">
-        <div class="flex-row div-margin">
+
+        <mat-form-field class="flex-row div-margin">
             <div class="label"><label>Name:</label></div>
-            <input name="name" formControlName="name"  type="text">
-        </div>
-        <div class="flex-row div-margin">
+            <input matInput  name="name" formControlName="name"  type="text">
+        </mat-form-field>
+
+        <mat-form-field class="flex-row div-margin">
             <div class="label"><label>Semester:</label></div>
-            <input name="semester" formControlName="semester"  type="number">
-        </div>
-        <div class="flex-row div-margin">
-            <div class="label"><label>Description:</label></div>
-            <input name="description" formControlName="description"  type="text">
-        </div>
+            <input matInput  name="semester" formControlName="semester"  type="number">
+        </mat-form-field>
         
+        <mat-form-field class="flex-row div-margin">
+            <div class="label"><label>Description:</label></div>
+            <input matInput  name="description" formControlName="description"  type="text">
+        </mat-form-field>
+           
+        <mat-form-field appearance="fill">
+            <mat-label>Choose Field Of Study</mat-label>
+            <mat-select formControlName="field_id" [compareWith]="compareCategoryObjects">
+                <mat-option *ngFor="let field of fields" [value]="field.field_id">
+                    SY:{{field.start_year}} C:{{field.cycle}} N:{{field.name}} 
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <div class="div-margin">
             <button *ngIf="data.schedule==null" mat-stroked-button color="primary" type="submit">Add</button>
             <button *ngIf="data.schedule!=null" mat-stroked-button color="primary" type="submit">Modify</button>

@@ -38,15 +38,15 @@ export class NewFieldComponent implements OnInit {
     }
   }
 
-  onSubmit(modelForm: FormGroup){
+  onSubmit(){
     this.errors = [];
 
-    if(modelForm.valid && modelForm.touched){
+    if(this.modelForm.valid && this.modelForm.touched){
       let new_field = <Field>{
-        name: modelForm.value.name,
-        short_name: modelForm.value.short_name,
-        start_year: modelForm.value.start_year,
-        cycle: modelForm.value.cycle,
+        name: this.modelForm.value.name,
+        short_name: this.modelForm.value.short_name,
+        start_year: this.modelForm.value.start_year,
+        cycle: this.modelForm.value.cycle,
       }
       if(this.data.field != null){
         this.onSubmitModify(new_field)

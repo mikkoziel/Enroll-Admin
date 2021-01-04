@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AddUserComponent } from '../add-user/add-user.component';
 import { User } from '../interfaces/user';
+import { NewFieldComponent } from '../new-field/new-field.component';
 import { ServerService } from '../services/server.service';
 
 @Component({
@@ -20,6 +23,8 @@ export class FieldDetailsComponent implements OnInit {
   usersOpenState: boolean = false;
   
   constructor(private _Activatedroute:ActivatedRoute,
+    public dialog: MatDialog,
+    private router: Router,
     private serverService: ServerService) { }
 
   ngOnInit(): void {
@@ -33,11 +38,40 @@ export class FieldDetailsComponent implements OnInit {
   }
 
   updateFoS(){
+    const dialogRef = this.dialog.open(NewFieldComponent, {
+      data: { field: this.data.field }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if(result!=null){
+        console.log(result)
+        this.data.field = result
+        // this.schedules.push(result);
+       }
+    });  
 
   }
 
   deleteFoS(){
+    this.serverService.deleteFoS(this.id).subscribe(result=>{
+      console.log(result)
+      this.router.navigateByUrl('/admin');
+    })
+  }
 
+  openAddUser(){
+    const dialogRef = this.dialog.open(AddUserComponent, {
+      data: {schedule_id: null, users: this.data.users, field_id: this.id, requests: this.data.requests}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if(result != null){
+        this.data.users = result.users;
+        this.data.requests = result.requests;
+      }
+    });
   }
 
 }

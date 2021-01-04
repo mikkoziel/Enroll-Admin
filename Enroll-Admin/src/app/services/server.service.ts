@@ -10,6 +10,7 @@ import { UserSchedule } from '../interfaces/user-schedule';
 import { User } from '../interfaces/user';
 import { Enrollment } from '../interfaces/enrollment';
 import { Field } from '../interfaces/field';
+import { UserField } from '../interfaces/user-field';
 
 const httpOptions = { headers: new HttpHeaders({ 
   'Content-Type' : 'application/json',
@@ -228,10 +229,25 @@ export class ServerService {
       catchError(this.handleError('addFoS'))
     )
   }
+  
+  addUserToFoS(uf: UserField){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '0'
+    })};
+    return this.http.post(this.httpAddress + "/user-field",
+    JSON.stringify(uf),
+    header).pipe(
+      // tap(x=> console.log(x)),
+      map(x=> this.parseStringToUsers(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addFoS'))
+    )
+  }
   // --DELETE------------------------------------------------------
   deleteSchedule(schedule_id:number){
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
+      'id': '0'
     })};
     return this.http.delete(this.httpAddress + "/schedules/" + schedule_id,
     header).pipe(
@@ -244,6 +260,7 @@ export class ServerService {
   deleteClass(class_id:number){
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
+      'id': '0'
     })};
     return this.http.delete(this.httpAddress + "/classes/" + class_id,
     header).pipe(
@@ -256,6 +273,7 @@ export class ServerService {
   deleteGroup(group_id:number){
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
+      'id': '0'
     })};
     return this.http.delete(this.httpAddress + "/groups/" + group_id,
     header).pipe(
@@ -265,6 +283,44 @@ export class ServerService {
     )
   }
 
+  deleteFoS(field_id:number, user_id:number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '0'
+    })};
+    return this.http.delete(this.httpAddress + "/fos/" + field_id,
+    header).pipe(
+      // tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('deleteFoS'))
+    )
+  }
+
+  deleteUserField(field_id:number, user_id:number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': user_id.toString()
+    })};
+    return this.http.delete(this.httpAddress + "/user-field/" + field_id.toString(),
+    header).pipe(
+      // tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('deleteUserField'))
+    )
+  }
+
+  deleteUserSchedule(schedule_id:number, user_id:number){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': user_id.toString()
+    })};
+    return this.http.delete(this.httpAddress + "/user-sch/" + schedule_id.toString(),
+    header).pipe(
+      // tap(x=> console.log(x)),
+      // map(x=> this.parseSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('deleteUserSchedule'))
+    )
+  }
   // --UPDATE------------------------------------------------------
   updateSchedule(id:number, schedule: Schedule){
     // console.log(JSON.stringify(schedule))
@@ -325,6 +381,20 @@ export class ServerService {
     )
   }
 
+  updateUsertoSchedule(us: UserSchedule){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '0'
+    })};
+    return this.http.put(this.httpAddress + "/user-sch",
+    JSON.stringify(us),
+    header).pipe(
+      // tap(x=> console.log(x)),
+      map(x=> this.parseStringToUsers(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addFoS'))
+    )
+  }
+
   updateFoS(user_id:number, fos: Field){
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
@@ -336,6 +406,20 @@ export class ServerService {
       // tap(x=> console.log(x)),
       map(x=> this.parseStringToField(JSON.parse(JSON.stringify(x)))),
       catchError(this.handleError('updateFoS'))
+    )
+  }
+  
+  updateUsertoFoS(uf: UserField){
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': '0'
+    })};
+    return this.http.put(this.httpAddress + "/user-field",
+    JSON.stringify(uf),
+    header).pipe(
+      // tap(x=> console.log(x)),
+      map(x=> this.parseStringToUsers(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addFoS'))
     )
   }
 
@@ -367,7 +451,8 @@ export class ServerService {
       semester: schedule.semester,
       description: schedule.description,
       classes: Array.from(schedule.classes, (cl: any) => 
-        this.parseStringToClass(cl))
+        this.parseStringToClass(cl)),
+      field_id: schedule.field_id
     };
   }
 
@@ -438,7 +523,8 @@ export class ServerService {
     let data={};
     data["schedule"] = this.parseStringToSchedule(comb.schedule)
     data["profs"] = this.parseStringToProfessors({ "professors": comb.professors})
-    data["users"] = this.parseStringToUsers({"users": comb.users})
+    data["users"] = this.parseStringToUsers({"users": comb.users}),  
+    data["requests"] = this.parseStringToUsers({"users": comb.requests});
     return data;
   }
 
@@ -476,6 +562,7 @@ export class ServerService {
     let data = {};
     data["field"] = this.parseStringToField(fd_json.field);
     data["users"] = this.parseStringToUsers({"users": fd_json.users});
+    data["requests"] = this.parseStringToUsers({"users": fd_json.requests});
     return data;
   }
 }

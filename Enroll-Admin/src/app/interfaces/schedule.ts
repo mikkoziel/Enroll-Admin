@@ -6,5 +6,6 @@ export interface Schedule{
     status: string,
     semester: number,
     description: string,
-    classes: Class[]
+    classes: Class[],
+    field_id: number
 }

@@ -99,7 +99,10 @@ export class ScheduleDetailsComponent implements OnInit {
 
   openAddUser(){
     const dialogRef = this.dialog.open(AddUserComponent, {
-      data: {schedule_id: this.id, users: this.data.users}
+      data: {schedule_id: this.id, 
+        users: this.data.users, 
+        field_id: null, 
+        requests: this.data.requests}
     });
 
     dialogRef.afterClosed().subscribe(result => {
