@@ -283,7 +283,7 @@ export class ServerService {
     )
   }
 
-  deleteFoS(field_id:number, user_id:number){
+  deleteFoS(field_id:number){
     const header = { headers: new HttpHeaders({
       'responseType': 'text',
       'id': '0'
