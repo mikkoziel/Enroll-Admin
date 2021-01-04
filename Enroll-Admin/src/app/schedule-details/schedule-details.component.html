@@ -9,9 +9,10 @@
     </div>
     
     <div class="flex-child">
-        <button mat-stroked-button color="primary" (click)="updateSchedule()">Modify Schedule</button>
-        <button mat-stroked-button color="primary" (click)="showEnrollment()" [disabled]="checkStartEnrollment()">Start Enrollment</button>
-        <button mat-stroked-button color="primary" (click)="deleteSchedule()">Delete Schedule</button>
+        <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="updateSchedule()">Modify Schedule</button>
+        <button mat-stroked-button color="primary" (click)="showEnrollment()" [disabled]="checkStatus()">Start Enrollment</button>
+        <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="deleteSchedule()">Delete Schedule</button>
+        <button mat-stroked-button color="primary" (click)="copySchedule()">Copy Schedule</button>
     </div>
     <!-- <app-start-enroll *ngIf="startEnroll" [data]="data" [currentUser]="currentUser" (submitItemEvent)="showEnrollment()"></app-start-enroll> -->
     
@@ -32,7 +33,7 @@
     </mat-accordion>
 
     <div class="flex-child">
-        <button mat-stroked-button color="primary" (click)="addClass()">Add Class</button>
+        <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="addClass()">Add Class</button>
     </div>
 
     <mat-divider></mat-divider>
@@ -55,6 +56,6 @@
 
 
     <div class="flex-child">
-        <button mat-stroked-button color="primary" (click)="openAddUser()">Modify User's List</button>
+        <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="openAddUser()">Modify User's List</button>
     </div>
 </div>

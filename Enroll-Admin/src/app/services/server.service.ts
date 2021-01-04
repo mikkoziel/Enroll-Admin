@@ -243,6 +243,21 @@ export class ServerService {
       catchError(this.handleError('addFoS'))
     )
   }
+
+  addCopyOfSchedule(id:number, data: any){
+    // console.log(JSON.stringify(schedule))
+    const header = { headers: new HttpHeaders({
+      'responseType': 'text',
+      'id': id.toString()
+    })};
+    return this.http.post(this.httpAddress + "/copy-sch",
+    JSON.stringify(data),
+    header).pipe(
+      // tap(x=> console.log(x)),
+      // map(x=> this.parseStringToSchedule(JSON.parse(JSON.stringify(x)))),
+      catchError(this.handleError('addCopyOfSchedule'))
+    )
+  }
   // --DELETE------------------------------------------------------
   deleteSchedule(schedule_id:number){
     const header = { headers: new HttpHeaders({

@@ -132,4 +132,9 @@ export class ClassOverviewComponent implements OnInit {
     }
     return group_index;
   }
+
+  
+  checkStatus(){
+    return this.data.schedule.status!="CREATED";
+  }
 }

@@ -126,8 +126,16 @@ export class ScheduleDetailsComponent implements OnInit {
     });
   }
 
-  checkStartEnrollment(){
+  checkStatus(){
     return this.data.schedule.status!="CREATED";
+  }
+
+  copySchedule(){
+    this.data.schedule.status = "CREATED";
+    this.serverService.addCopyOfSchedule(this.currentUser.id, this.data).subscribe((result: any)=>{
+      console.log(result)
+      this.router.navigateByUrl('/admin');
+    })
   }
 
 }

@@ -8,14 +8,14 @@
             Professor: {{getProfessor(group.professor_id)}}
             Type: {{group.type}}
             <button mat-stroked-button color="primary" (click)="modifyGroup(class, group)">Modify Group</button>
-            <button mat-stroked-button color="primary" (click)="deleteGroup(class, group.id)">Delete Group</button>
+            <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="deleteGroup(class, group.id)">Delete Group</button>
         </li>    
         <div>
-            <button mat-stroked-button color="primary" (click)="addGroup(class.id)">Add Group</button>
+            <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="addGroup(class.id)">Add Group</button>
         </div>
         <div>
-            <button mat-stroked-button color="primary" (click)="modifyClass(class)">Modify Class</button>
-            <button mat-stroked-button color="primary" (click)="deleteClass(class.id)">Delete Class</button>
+            <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="modifyClass(class)">Modify Class</button>
+            <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="deleteClass(class.id)">Delete Class</button>
         </div>
         <mat-divider></mat-divider>
     </div>
