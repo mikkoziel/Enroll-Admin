@@ -51,6 +51,8 @@ const components = [
   AddUserComponent,
   NewProfComponent,
   FieldOverviewComponent,
+  FieldDetailsComponent,
+  NewFieldComponent,
 ];
 
 const material = [
@@ -70,15 +72,13 @@ const material = [
 @NgModule({
   declarations: [
     components,
-    FieldDetailsComponent,
-    NewFieldComponent,
   ],
   imports: [
+    NgbModule,
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgbModule,
-    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     material
@@ -91,7 +91,8 @@ const material = [
     NewGroupComponent,
     NewScheduleComponent,
   ],
-  providers: [DatePipe, 
+  providers: [
+    DatePipe, 
     MatDatepickerModule,
   ],
   bootstrap: [AppComponent]

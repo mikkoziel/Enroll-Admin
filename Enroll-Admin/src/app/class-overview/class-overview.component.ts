@@ -135,6 +135,6 @@ export class ClassOverviewComponent implements OnInit {
 
   
   checkStatus(){
-    return this.data.schedule.status!="CREATED";
+    return this.data.schedule.status=="CREATED";
   }
 }

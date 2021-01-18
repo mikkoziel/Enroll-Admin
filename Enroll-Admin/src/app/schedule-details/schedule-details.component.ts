@@ -127,7 +127,7 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   checkStatus(){
-    return this.data.schedule.status!="CREATED";
+    return this.data.schedule.status=="CREATED";
   }
 
   copySchedule(){

@@ -10,7 +10,7 @@
     
     <div class="flex-child">
         <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="updateSchedule()">Modify Schedule</button>
-        <button mat-stroked-button color="primary" (click)="showEnrollment()" [disabled]="checkStatus()">Start Enrollment</button>
+        <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="showEnrollment()">Start Enrollment</button>
         <button *ngIf="checkStatus()" mat-stroked-button color="primary" (click)="deleteSchedule()">Delete Schedule</button>
         <button mat-stroked-button color="primary" (click)="copySchedule()">Copy Schedule</button>
     </div>
